@@ -1,0 +1,153 @@
+/**
+ * \file
+ *
+ * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ *
+ * \asf_license_start
+ *
+ * \page License
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * 3. The name of Atmel may not be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * 4. This software may only be redistributed and used in connection with an
+ *    Atmel microcontroller product.
+ *
+ * THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+ * EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * \asf_license_stop
+ *
+ */
+
+/*###ICF### Section handled by ICF editor, don't touch! ****/
+/*-Editor annotation file-*/
+/* IcfEditorFile="$TOOLKIT_DIR$\config\ide\IcfEditor\cortex_v1_0.xml" */
+/*-Specials-*/
+define symbol __ICFEDIT_region_ITCM_start__ = 0x00000008;
+define symbol __ICFEDIT_region_DTCM_start__ = 0x20000000;
+define symbol __ICFEDIT_intvec_start__      = 0x00400000;
+/*-Memory Regions-*/
+define symbol __ICFEDIT_region_RAM_start__ = 0x20400000;
+define symbol __ICFEDIT_region_RAM_end__   = 0x20440000 -1;
+define symbol __ICFEDIT_region_ROM_start__ = 0x00400000;
+define symbol __ICFEDIT_region_ROM_end__   = 0x00600000 -1;
+/*-Sizes-*/
+/* ITCM and DTCM default size id 32 KB, change if it is not the case */
+define symbol __ICFEDIT_size_vectors__     = 0x800;
+define symbol __ICFEDIT_size_itcm__        = 0x10000;
+define symbol __ICFEDIT_size_dtcm__        = 0x10000;
+if (!isdefinedsymbol(__ICFEDIT_size_cstack__)) {
+define symbol __ICFEDIT_size_cstack__        = 0x2000;
+}
+if (!isdefinedsymbol(__ICFEDIT_size_heap__)) {
+define symbol __ICFEDIT_size_heap__          = 0x200;
+}
+/**** End of ICF editor section. ###ICF###*/
+
+/*-Exports-*/
+export symbol __ICFEDIT_region_ITCM_start__;
+export symbol __ICFEDIT_region_DTCM_start__;
+export symbol __ICFEDIT_region_RAM_start__;
+export symbol __ICFEDIT_region_RAM_end__;
+export symbol __ICFEDIT_size_vectors__;
+
+define memory mem with size = 4G;
+define region VEC_region     = mem:[from __ICFEDIT_region_ROM_start__ size __ICFEDIT_size_vectors__];
+define region ITCM_region    = mem:[from __ICFEDIT_region_ITCM_start__ size __ICFEDIT_size_itcm__];
+define region DTCM_region   = mem:[from __ICFEDIT_region_DTCM_start__ size __ICFEDIT_size_dtcm__];
+define region RAM_region    = mem:[from __ICFEDIT_region_RAM_start__ to __ICFEDIT_region_RAM_end__];
+define region ROM_region    = mem:[from __ICFEDIT_region_ROM_start__ + __ICFEDIT_size_vectors__ to __ICFEDIT_region_ROM_end__];
+
+define block CSTACK with alignment = 8, size = __ICFEDIT_size_cstack__ { };
+define block HEAP   with alignment = 8, size = __ICFEDIT_size_heap__   { };
+
+initialize by copy with packing=none { readwrite };
+do not initialize                    { section .noinit };
+
+place in VEC_region            { section .intvec };
+place in ROM_region            { readonly };
+place in RAM_region            { readwrite, block CSTACK, block HEAP };
+
+place in ITCM_region {
+readwrite object atpl250.o,
+readwrite object atpl250_aux_func_as.o,
+readwrite object atpl250_ber.o,
+readwrite object atpl250_carrier_mapping.o,
+readwrite object atpl250_channel_estimation.o,
+readwrite object atpl250_channel_estimation_as.o,
+readwrite object atpl250_mod_demod.o,
+readwrite object atpl250_modulator.o,
+readwrite object atpl250_demodulator.o,
+readwrite object atpl250_reed_solomon.o,
+readwrite object atpl250_sampling_error_estimation.o,
+readwrite object atpl250_sampling_error_estimation_as.o,
+readwrite object atpl250_txrx_chain.o,
+readwrite object pal.o,
+readwrite object pplc_if.o,
+};
+
+place in DTCM_region {
+zi object atpl250.o,
+zi object atpl250_aux_func_as.o,
+zi object atpl250_ber.o,
+zi object atpl250_carrier_mapping.o,
+zi object atpl250_channel_estimation.o,
+zi object atpl250_channel_estimation_as.o,
+zi object atpl250_fch.o,
+zi object atpl250_hw_init.o,
+zi object atpl250_jump_ram.o,
+zi object atpl250_mod_demod.o,
+zi object atpl250_modulator.o,
+zi object atpl250_demodulator.o,
+zi object atpl250_reed_solomon.o,
+zi object atpl250_sampling_error_estimation.o,
+zi object atpl250_sampling_error_estimation_as.o,
+zi object atpl250_txrx_chain.o,
+zi object atpl250db_conf.o,
+zi object pal.o,
+zi object pplc_if.o,
+};
+
+// The TCM memory is mapped to internal SRAM, which is a volatile memory,
+// we need to explicitly copy code into the TCM memory at start-up.
+initialize by copy with packing=none {
+object atpl250.o,
+object atpl250_aux_func_as.o,
+object atpl250_ber.o,
+object atpl250_carrier_mapping.o,
+object atpl250_channel_estimation.o,
+object atpl250_channel_estimation_as.o,
+object atpl250_fch.o,
+object atpl250_hw_init.o,
+object atpl250_jump_ram.o,
+object atpl250_mod_demod.o,
+object atpl250_modulator.o,
+object atpl250_demodulator.o,
+object atpl250_reed_solomon.o,
+object atpl250_sampling_error_estimation.o,
+object atpl250_sampling_error_estimation_as.o,
+object atpl250_txrx_chain.o,
+object atpl250db_conf.o,
+object pal.o,
+object pplc_if.o,
+};
