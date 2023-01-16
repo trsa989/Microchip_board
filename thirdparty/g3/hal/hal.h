@@ -54,6 +54,9 @@ void platform_led_cfg_blink_rate(uint32_t ul_blink_rate_ms);
 void platform_led_update(void);
 void platform_led_int_toggle(void);
 
+void platform_init_reset_det(void);
+void platform_set_reset_callback(void (*pf_user_callback)(void));
+
 #if BOARD == ATPL360AMB || BOARD == ATPL360ASB || BOARD == ATPL360MB || BOARD == PL360G55CB_EK || BOARD == PL360G55CF_EK || BOARD == SAME70_XPLAINED || \
 		BOARD == PL360BN || BOARD == PL485_VB || BOARD == PL485_EK || BOARD == PIC32CXMTSH_DB || BOARD == PIC32CXMTG_EK || BOARD == PL460_VB || BOARD == SAMG55_XPLAINED_PRO || BOARD == SAM4CMS_DB || \
 		BOARD == PL480_VB || BOARD == PL480_EK

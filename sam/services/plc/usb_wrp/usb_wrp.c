@@ -229,8 +229,9 @@ void usb_wrp_cdc_set_coding_ext(uint8_t port, usb_cdc_line_coding_t *cfg)
 	/*	USB_WRP_DBG(("usb_wrp_cdc_set_coding_ext\r\n")); */
 }
 
-void usb_wrp_udc_start(void)
+__attribute__((always_inline)) void usb_wrp_udc_start(void) 
 {
+	portable_delay_cycles(2000000);
 	_init_usb_buffer(&sx_rx_data_buf);
 
 	/* Start USB stack to authorize VBus monitoring */

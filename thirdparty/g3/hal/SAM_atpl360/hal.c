@@ -61,7 +61,9 @@ uint32_t ul_call_app_process_count_ms_cfg = 0;
 uint32_t ul_call_app_process_count_ms = 0;
 void (*pf_platform_ms_timer_callback)(void) = NULL;
 void (*pf_pdd_callback)(void) = NULL;
+void (*pf_rst_callback)(void) = NULL;
 void platform_pdd_handler(void);
+
 #if (BOARD == PIC32CXMTSH_DB)
 #ifdef CONF_BOARD_LCD_EN
 static bool b_led_swap_on = false;
@@ -611,6 +613,53 @@ void SUPC_Handler(void)
 
 #endif /* PLATFORM_PDD_INTERNAL_SUPPLY_MONITOR */
 
+
+/**********************************************************************************************************************/
+/************************************************ -------------------- ************************************************/
+/************************************************ RESET HANDLING       ************************************************/
+/************************************************ -------------------- ************************************************/
+/**********************************************************************************************************************/
+
+#ifdef PLATFORM_RST_INTERRUPT
+
+void RSTC_Handler(void)
+{
+	uint32_t ul_status;
+	uint32_t *pCodeMSPValue;
+	pCodeMSPValue = 0x00400000; //star code address - first value is stack ponter value
+  Disable_global_interrupt();
+#if PIC32CX
+	ul_status = rstc_get_interrupt_status(RSTC);
+#else
+	ul_status = rstc_get_status(RSTC);
+#endif
+	UNUSED(ul_status);
+
+	if (pf_rst_callback != NULL) {
+		/* Launch user-defined RESET callback */
+		pf_rst_callback();
+	}
+	udc_stop();
+	pmc_switch_mck_to_mainck(CONFIG_SYSCLK_PRES); /*this must beadded, without cde ater reset freezes on pmc_disable_pllack function call*/
+	
+	/*__set_MSP( (*pCodeMSPValue) );*/
+	/*Reset_Handler();*/
+	/*SystemInit();*/
+	/*main();*/
+	NVIC_SystemReset();
+	
+	Enable_global_interrupt();
+	
+	/*__set_MSP( (*pCodeMSPValue) );*/
+	/*__user_initial_stackheap();*/
+	/*SystemInit();*/
+	/*main();*/
+	
+	/*NVIC_SystemReset();*/
+}
+
+#endif /* PLATFORM_RST_INTERRUPT */
+
 #ifdef PLATFORM_PDD_EXTERNAL_VOLTAGE_DIVIDER
 
 #if (SAM4S || SAM4E || SAM4N || SAM4C || SAMG || SAM4CP || SAM4CM || PIC32CX)
@@ -952,6 +1001,51 @@ void platform_set_pdd_callback(void (*pf_user_callback)(void))
 }
 
 #endif /* defined(PLATFORM_PDD_INTERNAL_SUPPLY_MONITOR) || defined(PLATFORM_PDD_EXTERNAL_VOLTAGE_DIVIDER) */
+
+
+/**********************************************************************************************************************/
+/************************************************ -------------------- ************************************************/
+/************************************************ RESET HANDLING       ************************************************/
+/************************************************ -------------------- ************************************************/
+/**********************************************************************************************************************/
+
+#ifdef PLATFORM_RST_INTERRUPT
+void platform_init_reset_det(void)
+{
+#ifdef PLATFORM_PDD_INTERNAL_SUPPLY_MONITOR
+	/* Enable RSTC CLK */
+	pmc_enable_periph_clk(ID_RSTC);
+#if PIC32CX
+	/* Set Voltage threshold */
+	supc_set_monitor_threshold(SUPC, SUPC_SM_THRESHOLD_2v96);
+	/* Set sampling period */
+	supc_set_monitor_sampling_period(SUPC, SUPC_SMMR_IOSMSMPL_ALWAYS_ON);
+	/* Configure and enable SUPC interrupt */
+	supc_enable_monitor_interrupt(SUPC);
+	NVIC_SetPriority((IRQn_Type)ID_SUPC, 0);
+	NVIC_EnableIRQ((IRQn_Type)ID_SUPC);
+	/* Enable Supply monitor */
+	supc_enable_monitor(SUPC);
+#else
+	rstc_disable_user_reset(RSTC);
+	rstc_enable_user_reset_interrupt(RSTC);
+	NVIC_SetPriority((IRQn_Type)ID_RSTC, 0);
+	NVIC_EnableIRQ((IRQn_Type)ID_RSTC);
+#endif
+#endif /* PLATFORM_RST_INTERRUPT */
+	pf_rst_callback = NULL;
+}
+
+/**
+ * \brief Set up Reset interrupt callback.
+ *
+ */
+void platform_set_reset_callback(void (*pf_user_callback)(void))
+{
+	pf_rst_callback = pf_user_callback;
+}
+
+#endif
 
 /**********************************************************************************************************************/
 /************************************************ -------------------- ************************************************/

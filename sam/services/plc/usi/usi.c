@@ -757,6 +757,12 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 	}
 
 	puc_tx_buf += us_len;
+	
+	#if 1
+	printf("UART SEND PACKET LEN\r\n\r\n");
+	printf("%d", us_len);
+	printf("\r\n\r\n");
+	#endif
 
 	/* Update the index to the end of the data to send */
 	ul_idx_aux = puc_tx_buf - puc_tx_buf_ini;
@@ -815,6 +821,7 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 	/* Check if there is still room */
 	if (ul_idx_in_orig + ul_size_coded > usi_cfg_tx_buf[uc_port_idx].us_size) {
 		/* No Room. Return error */
+		printf("USI_STATUS_TX_BUFFER_OVERFLOW\r\n\r\n");
 		return USI_STATUS_TX_BUFFER_OVERFLOW;
 	}
 
@@ -853,6 +860,7 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 			/* Check if there is still room */
 			if (ul_idx_in_orig + ul_size_coded > usi_cfg_tx_buf[uc_port_idx].us_size) {
 				/* No Room. Reset index and return error */
+				printf("USI_STATUS_TX_BUFFER_OVERFLOW\r\n\r\n");
 				return USI_STATUS_TX_BUFFER_OVERFLOW;
 			}
 
@@ -875,6 +883,16 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 
 	puc_tx_buf[ul_idx_aux++] = MSGMARK;
 
+	#if 1
+	uint32_t localCunter;
+	printf("UART SEND RAW DATA\r\n\r\n");
+	for(localCunter = 0; localCunter < ul_idx_aux; localCunter++)
+	{
+		printf("%02X", puc_tx_buf[localCunter]);
+	}
+	printf("\r\n\r\n");
+	#endif
+	
 	/* Message ready to be sent */
 	usi_cfg_param[uc_port_idx].us_idx_in = ul_idx_aux;
 	us_len = ul_idx_aux;
@@ -916,6 +934,12 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 			us_sent_chars = us_len;
 		}
 
+		#if 1
+		printf("us_sent_chars\r\n\r\n");
+		printf("%d", us_sent_chars);
+		printf("\r\n\r\n");
+		#endif		
+		
 		if (us_sent_chars > 0) {
 			/* Adjust buffer values depending on sent chars */
 			usi_cfg_param[uc_port_idx].us_idx_in -= us_sent_chars;
@@ -923,6 +947,7 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 			/* Discard msg */
 			usi_cfg_param[uc_port_idx].us_idx_in -= us_len;
 			/* USI_ERROR: UART/USART error */
+			printf("USI_STATUS_UART_ERROR\r\n\r\n");
 			return USI_STATUS_UART_ERROR;
 		}
 	}
@@ -1098,7 +1123,7 @@ void usi_process(void)
 	uint16_t us_msg_size_new = 0;
 	uint16_t us_msg_size_pending;
 	uint8_t uc_port_idx;
-
+	
 	/* Check reception on every port */
 	for (uc_port_idx = 0; uc_port_idx < NUM_PORTS; uc_port_idx++) {
 		us_msg_size_pending = usi_cfg_rx_buf[uc_port_idx].us_size;
@@ -1234,8 +1259,18 @@ usi_status_t usi_send_cmd(void *msg)
 
 	/* First checking, available length at least equal to minimum required space */
 	if (us_available_len < (us_len + MIN_OVERHEAD)) {
+		printf("USI_STATUS_RX_BUFFER_OVERFLOW\r\n\r\n");
 		return USI_STATUS_RX_BUFFER_OVERFLOW;
 	}
+	#if 1
+	uint32_t localCunter;
+	printf("UART PRE-SEND RAW DATA\r\n\r\n");
+	for(localCunter = 0; localCunter < us_len; localCunter++)
+	{
+		printf("%02X", ((cmd_params_t *)msg)->puc_buf[localCunter]);
+	}
+	printf("\r\n\r\n");
+	#endif
 
 	return (_usi_encode_and_send(uc_port_idx, (cmd_params_t *)msg));
 }

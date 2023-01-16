@@ -68,6 +68,8 @@
 #define  USB_DEVICE_PRODUCT_NAME          "CDC Virtual Com"
 #define  USB_DEVICE_SERIAL_NAME           "12...EF"
 
+
+/*#define USB_DEVICE_ATTACH_AUTO_DISABLE*/
 /**
  * USB Device Callbacks definitions (Optional)
  * @{

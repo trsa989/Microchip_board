@@ -58,7 +58,7 @@
 #define ID_BUSART0               ID_FLEXCOM4
 #define BUSART0_IRQn             FLEXCOM4_IRQn
 #define BUSART0_Handler          FLEXCOM4_Handler
-#define RX_BUSART0_SIZE          1024
-#define TX_BUSART0_SIZE          1024
+#define RX_BUSART0_SIZE          2054
+#define TX_BUSART0_SIZE          2054
 
 #endif  /* CONF_BUSART_IF_H_INCLUDED */

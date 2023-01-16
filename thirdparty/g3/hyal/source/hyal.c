@@ -437,8 +437,10 @@ static void _Callback_HyALMacWrpDataIndication(struct TMacWrpDataIndication *pPa
 
 	/* Check if the same frame has been received on the other medium (duplicate detection), except for broadcast */
 	if (MAC_WRP_SHORT_ADDRESS_BROADCAST != pParameters->m_DstAddr.m_nShortAddress) {
+		LOG_INFO(Log("HyALMacWrpDataIndication MAC_WRP_SHORT_ADDRESS_BROADCAST != pParameters->m_DstAddr.m_nShortAddress"));
 		if (_checkDuplicates(pParameters->m_SrcAddr.m_nShortAddress, pParameters->m_pMsdu, 
 			pParameters->m_u16MsduLength, HYAL_MEDIA_TYPE_IND_PLC)) {
+			LOG_INFO(Log("HyALMacWrpDataIndication checkDuplicates(pParameters->m_SrcAddr.m_nShortAddress, pParameters->m_pMsdu, pParameters->m_u16MsduLength, HYAL_MEDIA_TYPE_IND_PLC"));
 			/* Same frame was received on RF medium. Drop indication */
 			LOG_INFO(Log("Same frame was received on RF medium. Drop indication"));
 			return;
@@ -446,9 +448,11 @@ static void _Callback_HyALMacWrpDataIndication(struct TMacWrpDataIndication *pPa
 	}
 
 	/* Copy parameters from Mac Wrapper. Media Type will be filled later */
+	LOG_INFO(Log("HyALMacWrpDataIndication memcpy(&dataIndParameters, pParameters, sizeof(struct TMacWrpDataIndication))"));
 	memcpy(&dataIndParameters, pParameters, sizeof(struct TMacWrpDataIndication));
 
 	if (sUpperLayerNotifications.m_HyALDataIndication != NULL) {
+		LOG_INFO(Log("HyALMacWrpDataIndication "));
 		dataIndParameters.m_eMediaType = HYAL_MEDIA_TYPE_IND_PLC;
 		sUpperLayerNotifications.m_HyALDataIndication(&dataIndParameters);
 	}

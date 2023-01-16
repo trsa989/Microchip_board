@@ -52,8 +52,8 @@
 /* Storage includes */
 #include "storage.h"
 
-/* #define LOG_STORAGE(a)   printf a */
-#define LOG_STORAGE(a)   (void)0
+#define LOG_STORAGE(a)   printf a 
+/*#define LOG_STORAGE(a)   (void)0*/
 
 #if defined(_SAMG55J19_)
 #define RSTC_SR_RSTTYP_GeneralReset   RSTC_SR_RSTTYP_GENERAL_RST
@@ -115,9 +115,15 @@ void load_persistent_info(void)
 #if defined(PLATFORM_PDD_INTERNAL_SUPPLY_MONITOR) || defined(PLATFORM_PDD_EXTERNAL_VOLTAGE_DIVIDER)
 	/* Set callback for power down */
 	platform_set_pdd_callback(&store_persistent_info);
-	LOG_STORAGE(("Callback to store persistent data set.\r\n"));
+	LOG_STORAGE(("PDD Callback to store persistent data set.\r\n"));
 #endif
 
+#if defined(PLATFORM_RST_INTERRUPT)
+	/* Set callback for power down */
+	platform_set_reset_callback(&store_persistent_info);
+	LOG_STORAGE(("RST Callback to store persistent data set.\r\n"));
+#endif	
+	
 	b_upd_info = true;
 
 	platform_init_storage();

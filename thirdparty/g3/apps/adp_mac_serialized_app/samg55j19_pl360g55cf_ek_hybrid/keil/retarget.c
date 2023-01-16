@@ -18,28 +18,46 @@
 #include "status_codes.h"
 #include "uart_serial.h"
 
+#if defined __CC_ARM
 #pragma import(__use_no_semihosting_swi)
+#endif
 
+#if defined __CC_ARM
 struct __FILE { int handle; /* Add whatever you need here */ };
+#endif
 FILE __stdout;
 FILE __stdin;
 
 int fputc(int c, FILE *f)
 {
-#ifdef CONSOLE_UART
-	return (usart_serial_putchar((usart_if)CONSOLE_UART, c));
+#ifdef CONF_BOARD_UDC_CONSOLE
+	while (!usb_wrp_udc_write_buf((uint8_t *)&c, 1)) {
+		/* Reset watchdog */
+		WDT->WDT_CR = WDT_CR_KEY_PASSWD | WDT_CR_WDRSTT;
+	}
 #else
-	return 0;
+	#ifdef CONSOLE_UART
+		return (usart_serial_putchar((usart_if)CONSOLE_UART, c));
+	#else
+		return 0;
+	#endif
 #endif
 }
 
 int fgetc(FILE *f)
 {
 	uint8_t uc_c;
-#ifdef CONSOLE_UART
-	usart_serial_getchar((usart_if)CONSOLE_UART, &uc_c);
+#ifdef CONF_BOARD_UDC_CONSOLE
+	while (!usb_wrp_udc_read_buf(&uc_c, 1)) {
+		/* Reset watchdog */
+		WDT->WDT_CR = WDT_CR_KEY_PASSWD | WDT_CR_WDRSTT;
+	}
 #else
-	uc_c = 0xFF;
+	#ifdef CONSOLE_UART
+		usart_serial_getchar((usart_if)CONSOLE_UART, &uc_c);
+	#else
+		uc_c = 0xFF;
+	#endif
 #endif
 	return (uc_c);
 }

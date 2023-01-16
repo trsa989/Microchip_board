@@ -494,6 +494,10 @@ void oss_start(void)
 	platform_init_power_down_det();
 #endif
 
+#if defined (PLATFORM_RST_INTERRUPT)
+	platform_init_reset_det();
+#endif
+
 #ifdef OSS_ENABLE_IPv6_STACK_SUPPORT
 	/* Initialize IPv6 stack */
 	netInit();
@@ -503,7 +507,8 @@ void oss_start(void)
 	/* Initialize USI */
 	usi_init();
 #endif
-
+	/* Print Welcome msg */
+	printf("G3 ADP Serialized App\r\n\r\n");
 	/* Task-registered initialization */
 	_oss_execute_tasks(OSS_TASK_INIT);
 

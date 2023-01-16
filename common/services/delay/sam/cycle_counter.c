@@ -38,15 +38,38 @@
 #include "cycle_counter.h"
 
 /* Delay loop is put to SRAM so that FWS will not affect delay time */
-OPTIMIZE_HIGH
-RAMFUNC
-void portable_delay_cycles(unsigned long n)
-{
-	UNUSED(n);
+#if defined __ARM_CC
+	OPTIMIZE_HIGH
+	RAMFUNC
+	void portable_delay_cycles(unsigned long n)
+	{
+		UNUSED(n);
 
-	__asm volatile (
-		"loop: DMB	\n"
-		"SUBS R0, R0, #1  \n"
-		"BNE.N loop         "
-		);
-}
+		__asm volatile (
+			"loop: DMB	\n"
+			"SUBS R0, R0, #1  \n"
+			"BNE.N loop         "
+			);
+	}
+#else
+	/*OPTIMIZE_HIGH*/
+	RAMFUNC
+	void portable_delay_cycles(unsigned long n)
+	{
+		#if 1
+		UNUSED(n);
+		__asm volatile ("loop_local_1234:");
+		__asm volatile ("DMB");
+		__asm volatile ("SUBS R0, R0, #1");
+		__asm volatile ("BNE.N loop_local_1234");
+		#else
+		UNUSED(n);
+		unsigned long local_counter;
+		local_counter = n;
+		while (local_counter)
+		{
+			local_counter--;
+		};
+		#endif
+	}
+#endif

@@ -83,7 +83,7 @@ int main( void )
 	oss_init();
 
 	/* Print Welcome msg */
-	printf("G3 ADP Serialized App\r\n\r\n");
+	/*printf("G3 ADP Serialized App\r\n\r\n");*/
 
 	/* Register ADP Task */
 	x_task.task_init = adp_mac_serial_if_init;

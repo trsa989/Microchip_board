@@ -1,0 +1,16 @@
+.\obj\cipher_wrapper.o: ..\..\..\..\crypto\cipher_wrapper.c
+.\obj\cipher_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\cipher_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\cipher_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\cipher_wrapper.o: ..\..\..\..\crypto\cipher_wrapper.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cipher.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/private_access.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/build_info.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/mbedtls_config.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\..\common\utils\parts.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/check_config.h
+.\obj\cipher_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
+.\obj\cipher_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/platform_util.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cmac.h
+.\obj\cipher_wrapper.o: ..\..\..\..\..\mbed-tls\include\mbedtls/ccm.h

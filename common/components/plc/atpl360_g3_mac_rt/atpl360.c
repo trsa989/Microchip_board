@@ -213,7 +213,7 @@ static void _get_interrupt_info(atpl360_events_t *px_events_info, atpl360_spi_st
 		px_events_info->ul_event_info += ((uint32_t)*puc_info++) << 24;
 	} else {
 		/* Handle error in getting events info */
-		memset(px_events_info, 0, sizeof(px_events_info));
+		memset(px_events_info, 0, sizeof(/*px_events_info*/atpl360_events_t));
 	}
 }
 

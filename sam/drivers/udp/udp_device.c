@@ -590,9 +590,10 @@ void udd_enable(void)
 		udd_vbus_handler(USB_VBUS_PIO_ID, USB_VBUS_PIO_MASK);
 	}
 #else
-#  ifndef USB_DEVICE_ATTACH_AUTO_DISABLE
-	udd_attach();
-#  endif
+	#ifndef USB_DEVICE_ATTACH_AUTO_DISABLE
+		udd_detach();
+		udd_attach();
+	#endif
 #endif
 
 	cpu_irq_restore(flags);

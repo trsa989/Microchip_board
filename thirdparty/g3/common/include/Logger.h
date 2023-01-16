@@ -87,7 +87,7 @@ void LogAssert(const char *file, uint32_t line, const char *condition);
  **********************************************************************************************************************/
 const char *LogGetFileName(const char *fullpath);
 
-#define NDEBUG
+//#define NDEBUG
 //#define SHORT_LOG
 
 int __write(int handle, const unsigned char *buf, int bufSize);
@@ -103,7 +103,7 @@ int __write(int handle, const unsigned char *buf, int bufSize);
 /// Log level meaning that all messages are output (LOG_ASSERT, LOG_ERR, LOG_PRIO, LOG_INFO and LOG_DBG).
   #define LOG_LVL_DBG       4
 
-  #define LOG_LEVEL_ADP LOG_LVL_INFO
+  #define LOG_LEVEL_ADP LOG_LVL_DBG /*LOG_LVL_INFO*/
 
   #ifndef NDEBUG
 extern uint32_t oss_get_up_time_ms(void);
@@ -115,10 +115,10 @@ extern uint32_t oss_get_up_time_ms(void);
 
 // Use a default setting if nobody defined a log level
 #ifndef LOG_LEVEL
-  #define LOG_LEVEL LOG_LVL_NONE
+ // #define LOG_LEVEL LOG_LVL_NONE//
 //#define LOG_LEVEL LOG_LVL_ERR
 //#define LOG_LEVEL LOG_LVL_INFO
-//#define LOG_LEVEL LOG_LVL_DBG
+#define LOG_LEVEL LOG_LVL_DBG
 #endif
 
 #undef LOG_ASSERT
@@ -144,10 +144,10 @@ extern uint32_t oss_get_up_time_ms(void);
 #if (LOG_LEVEL >= LOG_LVL_ERR) && !defined(NDEBUG)
 /// Outputs an error message.
   #define LOG_ERR(expression) \
-  {Log("\r\n%08X *ERR* %s:%d ", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
+  {Log("\r\n%08X *ERR* %s:%d \n\t", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
 /// Outputs a high priority information message (log level LOG_LVL_ERR).
   #define LOG_PRIO(expression) \
-  {Log("\r\n%08X PRIO  %s:%d ", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
+  {Log("\r\n%08X PRIO  %s:%d \n\t", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
 #else
   #define LOG_ERR(expression)    /* Nothing */
   #define LOG_PRIO(expression)    /* Nothing */
@@ -156,7 +156,7 @@ extern uint32_t oss_get_up_time_ms(void);
 #if (LOG_LEVEL >= LOG_LVL_INFO) && !defined(NDEBUG)
 /// Outputs an information message.
   #define LOG_INFO(expression) \
-  {Log("\r\n%08X INFO  %s:%d ", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
+  {Log("\r\n%08X INFO  %s:%d \n\t", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
 #else
   #define LOG_INFO(expression)     /* Nothing */
 #endif
@@ -164,7 +164,7 @@ extern uint32_t oss_get_up_time_ms(void);
 #if (LOG_LEVEL >= LOG_LVL_DBG) && !defined(NDEBUG)
 /// Outputs a debug message.
   #define LOG_DBG(expression) \
-  {Log("\r\n%08X DBG   %s:%d ", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
+  {Log("\r\n%08X DBG   %s:%d \n\t", oss_get_up_time_ms(), LogGetFileName(__FILE__), __LINE__); expression; }
 #else
   #define LOG_DBG(expression)             /* Nothing */
 #endif

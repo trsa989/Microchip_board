@@ -1,0 +1,11 @@
+.\obj\eax.o: ..\..\..\..\crypto\eax.c
+.\obj\eax.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\eax.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\eax.o: ..\..\..\..\crypto\eax.h
+.\obj\eax.o: ..\..\..\..\crypto\aes_wrapper.h
+.\obj\eax.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\eax.o: ..\..\..\..\crypto\brg_types.h
+.\obj\eax.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
+.\obj\eax.o: ..\..\..\..\crypto\mode_hdr.h
+.\obj\eax.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\eax.o: ..\..\..\..\crypto\brg_endian.h

@@ -199,6 +199,10 @@ void adp_mac_serial_if_set_state(enum ESerialMode e_state)
 	case SERIAL_MODE_COORD:
 		printf("Serial mode initialized as COORD\r\n");
 		break;
+	
+	default:
+		printf("Serial mode not set properly\r\n");
+		break;
 	}
 	_show_version();
 }
