@@ -52,8 +52,11 @@
 /* Storage includes */
 #include "storage.h"
 
+#ifdef STORAGE_DEBUG_ENABLE
 #define LOG_STORAGE(a)   printf a 
-/*#define LOG_STORAGE(a)   (void)0*/
+#else
+#define LOG_STORAGE(a)   (void)0
+#endif
 
 #if defined(_SAMG55J19_)
 #define RSTC_SR_RSTTYP_GeneralReset   RSTC_SR_RSTTYP_GENERAL_RST
@@ -144,14 +147,20 @@ void load_persistent_info(void)
 		LOG_STORAGE(("load_persistent_info() unable to read storage.\r\n"));
 		b_upd_info = false;
 	}
-
+	
 	/* Increment startup counter */
 	persistentInfo.m_u32StartupCounter++;
 
 	/* Set Values to G3 Stack */
 	if (_update_persistent_data_GPBR(&persistentInfo.m_data, b_upd_info)) {
 		_set_persistent_data(&persistentInfo.m_data);
-		LOG_STORAGE(("Persistent data loaded. Startup Counter: %d\r\n", persistentInfo.m_u32StartupCounter));
+		LOG_STORAGE(("Persistent data loaded. m_u32StartupCounter: %d\r\n", persistentInfo.m_u32StartupCounter));
+		LOG_STORAGE(("Persistent data loaded. m_u16Version: %d\r\n", persistentInfo.m_u16Version));
+		LOG_STORAGE(("Persistent data loaded. m_u16Crc16: %d\r\n", persistentInfo.m_u16Crc16));
+		LOG_STORAGE(("Persistent data loaded. m_u32FrameCounter: %d\r\n", persistentInfo.m_data.m_u32FrameCounter));
+		LOG_STORAGE(("Persistent data loaded. m_u32FrameCounterRF: %d\r\n", persistentInfo.m_data.m_u32FrameCounterRF));
+		LOG_STORAGE(("Persistent data loaded. m_u16DiscoverSeqNumber: %d\r\n", persistentInfo.m_data.m_u16DiscoverSeqNumber));
+		LOG_STORAGE(("Persistent data loaded. m_u8BroadcastSeqNumber: %d\r\n", persistentInfo.m_data.m_u8BroadcastSeqNumber));	
 	}
 
 	/* Pre-erase flash page for further quick writing on power-down */

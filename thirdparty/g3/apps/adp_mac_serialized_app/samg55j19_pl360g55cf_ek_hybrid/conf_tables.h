@@ -60,8 +60,9 @@
 #define CONF_ADP_FRAGMENTED_TRANSFER_TABLE_SIZE    3
 
 /* Define ADP Layer Table Sizes */
-#define CONF_ADP_ROUTING_TABLE_SIZE              400
-#define CONF_ADP_ROUTING_SET_SIZE                75
+/*#define CONF_ADP_ROUTING_TABLE_SIZE  							400*/
+#define CONF_ADP_ROUTING_TABLE_SIZE              2000
+#define CONF_ADP_ROUTING_SET_SIZE                400
 #define CONF_LOADNG_RREP_GENERATION_TABLE_SIZE   10
 
 /* Define IPv6 Buffer Count */
@@ -72,7 +73,8 @@
   #define CONF_MAC_NEIGHBOUR_TABLE_ENTRIES       (500)
   #define CONF_MAC_POS_TABLE_ENTRIES             (1)
 #else  /* SPEC_COMPLIANCE >= 17 */
-  #define CONF_MAC_NEIGHBOUR_TABLE_ENTRIES       (100)
+	/*#define CONF_MAC_NEIGHBOUR_TABLE_ENTRIES		 (100)*/
+  #define CONF_MAC_NEIGHBOUR_TABLE_ENTRIES       (512) 
   #define CONF_MAC_POS_TABLE_ENTRIES             (500)
 #endif
 #define CONF_MAC_DSN_SHORT_TABLE_ENTRIES         (128)

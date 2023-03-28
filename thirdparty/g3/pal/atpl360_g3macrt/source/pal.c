@@ -21,6 +21,8 @@
 /* Mac includes */
 #include "mac_wrapper_defs.h"
 
+#define AD_HOC_PAL_DEBUG 1
+
 #ifdef PAL_DEBUG_ENABLE
 #define LOG_PAL_DEBUG(a)   printf a
 #else
@@ -253,7 +255,9 @@ static void _restore_mib_backup_info(void)
 static void _process_frame_cb(struct TMacRtFrame *pFrame, struct TMacRtDataIndication *pParameters)
 {
 	LOG_PAL_DEBUG(("_process_frame_cb %u\r\n", pFrame->m_u16PayloadLength));
-	
+	#if AD_HOC_PAL_DEBUG
+		printf("_process_frame_cb %u\r\n", pFrame->m_u16PayloadLength);
+	#endif
 	if (!sb_trx_available) {
 		/* Indication not propagated */
 		return;

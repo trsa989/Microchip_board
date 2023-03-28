@@ -46,6 +46,8 @@
 
 #include "conf_project.h"
 
+/*#define ENABLE_SNIFFER*/
+
 #define USI_PORT_0      0
 
 /* Port Communications configuration */
@@ -64,5 +66,9 @@
 #define ADP_SERIAL_PORT                  USI_PORT_0
 #define MAC_SERIAL_PORT                  USI_PORT_0
 #define COORD_SERIAL_PORT                USI_PORT_0
+
+#ifdef ENABLE_SNIFFER
+#define PHY_SNIFFER_SERIAL_PORT 				 USI_PORT_0
+#endif
 
 #endif /* CONF_USI_H_INCLUDED */

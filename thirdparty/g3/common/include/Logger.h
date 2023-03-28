@@ -87,7 +87,7 @@ void LogAssert(const char *file, uint32_t line, const char *condition);
  **********************************************************************************************************************/
 const char *LogGetFileName(const char *fullpath);
 
-//#define NDEBUG
+#define NDEBUG
 //#define SHORT_LOG
 
 int __write(int handle, const unsigned char *buf, int bufSize);

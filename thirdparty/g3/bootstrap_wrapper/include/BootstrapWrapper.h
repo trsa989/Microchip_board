@@ -18,6 +18,8 @@
 
 #include "AdpSharedTypes.h"
 
+/*#define BOOTSTRAP_DEBUG_ENABLE*/
+
 /* Maximum size of a bootstrap command */
 #define BOOTSTRAP_COMMAND_BUFFER_SIZE 200
 

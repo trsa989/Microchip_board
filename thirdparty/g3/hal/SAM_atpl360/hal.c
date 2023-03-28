@@ -6,8 +6,11 @@
 #include <stdlib.h>
 #endif
 
-/* #define LOG_PLATFORM(a)   printf a */
+#ifdef PLATFORM_DEBUG_ENABLE 
+#define LOG_PLATFORM(a)   printf a 
+#else
 #define LOG_PLATFORM(a)   (void)0
+#endif
 
 #if (SAM || PIC32CX)
 #include "asf.h"
@@ -616,6 +619,45 @@ void SUPC_Handler(void)
 
 /**********************************************************************************************************************/
 /************************************************ -------------------- ************************************************/
+/************************************************ DEFAULT NMI HANDLING ************************************************/
+/************************************************ -------------------- ************************************************/
+/**********************************************************************************************************************/
+
+#ifdef  PLATFORM_DEAFAULT_NMI_HANDLING
+
+void NMI_Handler(void)
+{
+	udc_stop();
+	pmc_switch_mck_to_mainck(CONFIG_SYSCLK_PRES); /*this must beadded, without cde ater reset freezes on pmc_disable_pllack function call*/
+	NVIC_SystemReset();	
+}
+
+void MemManage_Handler(void)
+{
+	udc_stop();
+	pmc_switch_mck_to_mainck(CONFIG_SYSCLK_PRES); /*this must beadded, without cde ater reset freezes on pmc_disable_pllack function call*/
+	NVIC_SystemReset();	
+}
+
+void BusFault_Handler(void)
+{
+	udc_stop();
+	pmc_switch_mck_to_mainck(CONFIG_SYSCLK_PRES); /*this must beadded, without cde ater reset freezes on pmc_disable_pllack function call*/
+	NVIC_SystemReset();	
+}
+
+void UsageFault_Handler(void)
+{
+	udc_stop();
+	pmc_switch_mck_to_mainck(CONFIG_SYSCLK_PRES); /*this must beadded, without cde ater reset freezes on pmc_disable_pllack function call*/
+	NVIC_SystemReset();	
+}
+
+#endif /* PLATFORM_DEAFAULT_NMI_HANDLING */
+
+
+/**********************************************************************************************************************/
+/************************************************ -------------------- ************************************************/
 /************************************************ RESET HANDLING       ************************************************/
 /************************************************ -------------------- ************************************************/
 /**********************************************************************************************************************/
@@ -626,7 +668,7 @@ void RSTC_Handler(void)
 {
 	uint32_t ul_status;
 	uint32_t *pCodeMSPValue;
-	pCodeMSPValue = 0x00400000; //star code address - first value is stack ponter value
+	/*pCodeMSPValue = 0x00400000; //star code address - first value is stack ponter value*/
   Disable_global_interrupt();
 #if PIC32CX
 	ul_status = rstc_get_interrupt_status(RSTC);
@@ -648,14 +690,13 @@ void RSTC_Handler(void)
 	/*main();*/
 	NVIC_SystemReset();
 	
-	Enable_global_interrupt();
+	/*Enable_global_interrupt();*/
 	
 	/*__set_MSP( (*pCodeMSPValue) );*/
 	/*__user_initial_stackheap();*/
 	/*SystemInit();*/
 	/*main();*/
 	
-	/*NVIC_SystemReset();*/
 }
 
 #endif /* PLATFORM_RST_INTERRUPT */

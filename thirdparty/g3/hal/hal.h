@@ -21,6 +21,8 @@
 
 #include "board.h"
 
+/*#define PLATFORM_DEBUG_ENABLE */
+
 #ifdef _G3_SIM_
 	#include <hal/Simulator/hal.h>
 #else

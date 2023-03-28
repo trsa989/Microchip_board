@@ -91,6 +91,7 @@ enum ESerialMessageId {
 	SERIAL_MSG_ADP_MAC_SET_REQUEST,
 	SERIAL_MSG_ADP_MAC_GET_REQUEST,
 	SERIAL_MSG_ADP_REQUEST_MESSAGES_END = SERIAL_MSG_ADP_MAC_GET_REQUEST,
+	SERIAL_MSG_ADP_STATUS = 26,
 
 	SERIAL_MSG_ADP_DATA_CONFIRM = 30,
 	SERIAL_MSG_ADP_DATA_INDICATION,
@@ -180,6 +181,25 @@ static void mem_copy_from_usi_endianness_uint16(uint8_t *puc_src, uint8_t *puc_d
 	us_aux += *puc_src;
 
 	memcpy(puc_dst, (uint8_t *)&us_aux, 2);
+}
+
+/**********************************************************************************************************************/
+
+
+/**
+ **********************************************************************************************************************/
+static void MsgModemStatus(enum ESerialStatus status, uint8_t uc_serial_if_cmd)
+{
+	uint8_t us_serial_response_len;
+
+	us_serial_response_len = 0;
+	uc_serial_rsp_buf[us_serial_response_len++] = uc_serial_if_cmd;
+	uc_serial_rsp_buf[us_serial_response_len++] = status;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
 }
 
 /**********************************************************************************************************************/
@@ -1219,6 +1239,19 @@ static void AdpNotification_PathDiscoveryConfirm(struct TAdpPathDiscoveryConfirm
 	usi_send_cmd(&x_adp_serial_msg);
 }
 
+
+/**********************************************************************************************************************/
+
+/**
+ **********************************************************************************************************************/
+static enum ESerialStatus _triggerAdpStatusRequest(const uint8_t *puc_msg_content)
+{
+	enum ESerialStatus status = SERIAL_STATUS_NOT_ALLOWED;
+	status = adp_mac_serial_if_get_state();
+	return status;
+}
+
+
 /**********************************************************************************************************************/
 
 /**
@@ -2025,9 +2058,14 @@ static enum ESerialStatus _triggerAdpMacGetRequest(const uint8_t *puc_msg_conten
 		u32AttributeId += ((uint32_t)*puc_buffer++) << 16;
 		u32AttributeId += ((uint32_t)*puc_buffer++) << 8;
 		u32AttributeId += (uint32_t)*puc_buffer++;
-
+		#if 0
+		u32AttributeId = /*0x08000002*/MAC_WRP_PIB_BAD_CRC_COUNT;
+		#endif
 		u16AttributeIndex = ((uint16_t)*puc_buffer++) << 8;
 		u16AttributeIndex += (uint16_t)*puc_buffer;
+		#if 0
+		u16AttributeIndex = 0x0000;
+		#endif
 		AdpMacGetRequest(u32AttributeId, u16AttributeIndex);
 		status = SERIAL_STATUS_SUCCESS;
 	}
@@ -2074,6 +2112,11 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 	puc_rx = &puc_rx_msg[1];
 
 	switch (uc_serial_if_cmd) {
+
+	case SERIAL_MSG_ADP_STATUS:
+		status = _triggerAdpStatusRequest(puc_rx);
+		break;
+
 	case SERIAL_MSG_ADP_INITIALIZE:
 		status = _triggerAdpInitialize(puc_rx);
 		break;
@@ -2134,11 +2177,19 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 		break;
 	}
 
-	/* initialize doesn't have Confirm so send Status */
-	/* other messages all have send / confirm send status only if there is a processing error */
-	if ((status != SERIAL_STATUS_UNKNOWN_COMMAND) && ((status != SERIAL_STATUS_SUCCESS) || (uc_serial_if_cmd == SERIAL_MSG_ADP_INITIALIZE))) {
-		MsgStatus(status, uc_serial_if_cmd);
+	if ((uc_serial_if_cmd == SERIAL_MSG_ADP_STATUS))
+	{
+		MsgModemStatus(status, uc_serial_if_cmd);
 		status = SERIAL_STATUS_SUCCESS;
+	}
+	else
+	{
+		/* initialize doesn't have Confirm so send Status */
+		/* other messages all have send / confirm send status only if there is a processing error */
+		if ((status != SERIAL_STATUS_UNKNOWN_COMMAND) && ((status != SERIAL_STATUS_SUCCESS) || (uc_serial_if_cmd == SERIAL_MSG_ADP_INITIALIZE))) {
+			MsgStatus(status, uc_serial_if_cmd);
+			status = SERIAL_STATUS_SUCCESS;
+		}
 	}
 
 	/* if (status == SERIAL_STATUS_SUCCESS) return true; */

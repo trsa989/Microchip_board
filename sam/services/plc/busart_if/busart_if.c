@@ -123,7 +123,7 @@ typedef struct {
 
 /* \name Size of the receive buffer used by the PDC, in bytes */
 /* @{ */
-#define USART_BUFFER_SIZE                       1024
+#define USART_BUFFER_SIZE                       2054 /*1024*/
 /* @} */
 
 #ifdef BUSART0

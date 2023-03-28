@@ -7,8 +7,11 @@
 
 #define BS_MAX_JOIN_TIME  250000
 
+#ifdef BOOTSTRAP_DEBUG_ENABLE
 #define LOG_BOOTSTRAP(a)   printf a 
-/*#define LOG_BOOTSTRAP(a)   (void)0*/
+#else
+#define LOG_BOOTSTRAP(a)   (void)0
+#endif
 
 /* It enables the network building strategy by levels,
  * this strategy allows to register nodes in an ordered manner depending

@@ -64,6 +64,8 @@ extern "C" {
 /**INDENT-ON**/
 /* @endcond */
 
+#define AD_HOC_USI_DEBUG 1
+
 #ifdef NUM_PORTS
 
 /** Default empty PHY serialization function */
@@ -758,7 +760,7 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 
 	puc_tx_buf += us_len;
 	
-	#if 1
+	#if AD_HOC_USI_DEBUG
 	printf("UART SEND PACKET LEN\r\n\r\n");
 	printf("%d", us_len);
 	printf("\r\n\r\n");
@@ -883,7 +885,7 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 
 	puc_tx_buf[ul_idx_aux++] = MSGMARK;
 
-	#if 1
+	#if AD_HOC_USI_DEBUG
 	uint32_t localCunter;
 	printf("UART SEND RAW DATA\r\n\r\n");
 	for(localCunter = 0; localCunter < ul_idx_aux; localCunter++)
@@ -934,12 +936,12 @@ static usi_status_t _usi_encode_and_send(uint8_t uc_port_idx, cmd_params_t *msg)
 			us_sent_chars = us_len;
 		}
 
-		#if 1
+		#if AD_HOC_USI_DEBUG
 		printf("us_sent_chars\r\n\r\n");
 		printf("%d", us_sent_chars);
 		printf("\r\n\r\n");
-		#endif		
-		
+		#endif
+
 		if (us_sent_chars > 0) {
 			/* Adjust buffer values depending on sent chars */
 			usi_cfg_param[uc_port_idx].us_idx_in -= us_sent_chars;
@@ -1141,6 +1143,21 @@ void usi_process(void)
 #endif
 		}
 
+		#if AD_HOC_USI_DEBUG
+		uint16_t static us_msg_size_previous = 0;
+		uint32_t localCunter;
+		if((us_msg_size_previous != us_msg_size_new) && us_msg_size_new)
+		{
+			printf("us_msg_size_new = %d\r\n\r\n", us_msg_size_new);
+			for(localCunter = 0; localCunter < us_msg_size_new; localCunter++)
+			{
+				printf("%02X", puc_rx_aux[localCunter]);
+			}
+			printf("\r\n\r\n");
+		}
+		us_msg_size_previous = us_msg_size_new;
+		#endif
+
 		/* Find first byte 0x7E */
 		us_msg_size_pending += us_msg_size_new;
 
@@ -1162,30 +1179,52 @@ void usi_process(void)
 						/* Check integrity LEN */
 						if (!_check_integrity_len(puc_first_token, us_msg_dec_size)) {
 							/* printf("ERROR: discard message\r\n"); */
+							#if AD_HOC_USI_DEBUG
+								printf("ERROR: LEN, discard message\r\n");
+							#endif
 							/* ERROR: discard message except last 0x7E. It is the first token of the next frame */
 							_usi_shift_buffer_left(puc_rx_start, us_msg_size - 1, us_msg_size_pending);
 							usi_cfg_rx_buf[uc_port_idx].us_size = us_msg_size_pending - (us_msg_size - 1);
 							return;
 						}
 					}
-
+					#if AD_HOC_USI_DEBUG
+					uint32_t localCunter;
+					printf("UART REC DATA\r\n\r\n");
+					for(localCunter = 0; localCunter < us_msg_dec_size; localCunter++)
+					{
+						printf("%02X", puc_rx_aux[localCunter]);
+					}
+					printf("\r\n\r\n");
+					#endif
 					/* Calculate CRC */
 					if (_doEoMsg(puc_rx_aux, us_msg_dec_size)) {
+						#if AD_HOC_USI_DEBUG
+							printf("OK CRC\r\n");
+						#endif
 						/* CRC is OK: process the message */
 						_process_msg(puc_rx_aux);
-					} /* else {
-					   *    printf("Error CRC\r\n");
-					   * } */
+					}  else {
+						#if AD_HOC_USI_DEBUG
+					    printf("Error CRC\r\n");
+						#endif
+					  }
 
 					/* Update RX pointer to next process */
 					_usi_shift_buffer_left(puc_rx_start, us_msg_size, us_msg_size_pending);
 					usi_cfg_rx_buf[uc_port_idx].us_size = us_msg_size_pending - us_msg_size;
 				} else {
+					#if AD_HOC_USI_DEBUG
+						printf("ERROR: Not 0x7E as last byte. Wait and check integrity through msg len in next process\r\n");
+					#endif
 					/* ERROR: Not 0x7E as last byte. Wait and check integrity through msg len in next process */
 					sb_check_len = true;
 					usi_cfg_rx_buf[uc_port_idx].us_size = us_msg_size_pending;
 				}
 			} else {
+				#if AD_HOC_USI_DEBUG
+					printf("ERROR: Not 0x7E as first byte. Discard RX\r\n");
+				#endif
 				/* ERROR: Not 0x7E as first byte. Discard RX */
 				memset(puc_rx_start, 0, us_msg_size_pending);
 				usi_cfg_rx_buf[uc_port_idx].us_size = 0;
@@ -1262,7 +1301,7 @@ usi_status_t usi_send_cmd(void *msg)
 		printf("USI_STATUS_RX_BUFFER_OVERFLOW\r\n\r\n");
 		return USI_STATUS_RX_BUFFER_OVERFLOW;
 	}
-	#if 1
+	#if AD_HOC_USI_DEBUG
 	uint32_t localCunter;
 	printf("UART PRE-SEND RAW DATA\r\n\r\n");
 	for(localCunter = 0; localCunter < us_len; localCunter++)
