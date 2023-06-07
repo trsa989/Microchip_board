@@ -1,18 +1,17 @@
-.\obj\routingwrapper.o: ..\..\..\..\routing_wrapper\source\RoutingWrapper.c
-.\obj\routingwrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
-.\obj\routingwrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\routingwrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\routingwrapper.o: ..\..\..\conf_global.h
-.\obj\routingwrapper.o: ..\conf_tables.h
-.\obj\routingwrapper.o: ..\..\..\..\common\include\Byte.h
-.\obj\routingwrapper.o: ..\..\..\..\adp\include\AdpApi.h
-.\obj\routingwrapper.o: ..\..\..\..\adp\include\AdpSharedTypes.h
-.\obj\routingwrapper.o: ..\..\..\..\adp\include\AdpApiTypes.h
-.\obj\routingwrapper.o: ..\..\..\..\common\include\Timer.h
-.\obj\routingwrapper.o: ..\..\..\..\mac_wrapper\include\mac_wrapper.h
-.\obj\routingwrapper.o: ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h
-.\obj\routingwrapper.o: ..\..\..\..\routing_wrapper\include\RoutingTypes.h
-.\obj\routingwrapper.o: ..\..\..\..\routing_wrapper\include\RoutingApi.h
-.\obj\routingwrapper.o: ..\..\..\..\common\include\QueueMng.h
-.\obj\routingwrapper.o: ..\..\..\..\common\include\Logger.h
-.\obj\routingwrapper.o: ..\..\..\..\routing_loadng\include\ProtoLoadNg.h
+./obj/routingwrapper.o: \
+  ..\..\..\..\routing_wrapper\source\RoutingWrapper.c \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\..\..\conf_global.h ..\conf_tables.h \
+  ..\..\..\..\common\include\Byte.h ..\..\..\..\adp\include\AdpApi.h \
+  ..\..\..\..\adp\include\AdpSharedTypes.h \
+  ..\..\..\..\adp\include\AdpApiTypes.h \
+  ..\..\..\..\common\include\Timer.h \
+  ..\..\..\..\mac_wrapper\include\mac_wrapper.h \
+  ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h \
+  ..\..\..\..\routing_wrapper\include\RoutingTypes.h \
+  ..\..\..\..\routing_wrapper\include\RoutingApi.h \
+  ..\..\..\..\common\include\QueueMng.h \
+  ..\..\..\..\common\include\Logger.h \
+  ..\..\..\..\routing_loadng\include\ProtoLoadNg.h

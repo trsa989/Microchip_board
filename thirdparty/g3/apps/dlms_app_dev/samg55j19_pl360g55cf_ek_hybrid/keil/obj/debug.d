@@ -1,0 +1,10 @@
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\common\debug.c
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\common\debug.h
+.\obj\debug.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\common\os_port.h
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\module_config\os_port_config.h
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\common\compiler_port.h
+.\obj\debug.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\debug.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\debug.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\inttypes.h
+.\obj\debug.o: ..\..\..\..\..\cycloneTCP\common\os_port_none.h

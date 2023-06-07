@@ -47,7 +47,7 @@
 #include "conf_project.h"
 
 /* Enable Embedded Sniffer */
-/* #define ENABLE_SNIFFER */
+/*#define ENABLE_SNIFFER*/
 
 #ifdef ENABLE_SNIFFER
 #define USI_PORT_0      0

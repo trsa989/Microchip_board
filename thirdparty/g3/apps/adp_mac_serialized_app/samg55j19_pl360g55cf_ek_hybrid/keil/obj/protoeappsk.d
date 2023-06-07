@@ -1,17 +1,16 @@
-.\obj\protoeappsk.o: ..\..\..\..\bootstrap_lbp\source\ProtoEapPsk.c
-.\obj\protoeappsk.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
-.\obj\protoeappsk.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\protoeappsk.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\protoeappsk.o: ..\..\..\..\adp\include\AdpApiTypes.h
-.\obj\protoeappsk.o: ..\..\..\..\bootstrap_lbp\include\ProtoEapPsk.h
-.\obj\protoeappsk.o: ..\..\..\..\common\include\Byte.h
-.\obj\protoeappsk.o: ..\..\..\..\bootstrap_wrapper\include\BootstrapWrapper.h
-.\obj\protoeappsk.o: ..\..\..\..\adp\include\AdpSharedTypes.h
-.\obj\protoeappsk.o: ..\..\..\..\common\include\Timer.h
-.\obj\protoeappsk.o: ..\..\..\..\crypto/eax.h
-.\obj\protoeappsk.o: ..\..\..\..\crypto/aes_wrapper.h
-.\obj\protoeappsk.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdlib.h
-.\obj\protoeappsk.o: ..\..\..\..\crypto/brg_types.h
-.\obj\protoeappsk.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
-.\obj\protoeappsk.o: ..\..\..\..\crypto/cipher_wrapper.h
-.\obj\protoeappsk.o: ..\..\..\..\common\include\Logger.h
+./obj/protoeappsk.o: ..\..\..\..\bootstrap_lbp\source\ProtoEapPsk.c \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\..\..\..\adp\include\AdpApiTypes.h \
+  ..\..\..\..\bootstrap_lbp\include\ProtoEapPsk.h \
+  ..\..\..\..\common\include\Byte.h \
+  ..\..\..\..\bootstrap_wrapper\include\BootstrapWrapper.h \
+  ..\..\..\..\adp\include\AdpSharedTypes.h \
+  ..\..\..\..\common\include\Timer.h ..\..\..\..\crypto\eax.h \
+  ..\..\..\..\crypto\aes_wrapper.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\..\..\..\crypto\brg_types.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\limits.h \
+  ..\..\..\..\crypto\cipher_wrapper.h \
+  ..\..\..\..\common\include\Logger.h

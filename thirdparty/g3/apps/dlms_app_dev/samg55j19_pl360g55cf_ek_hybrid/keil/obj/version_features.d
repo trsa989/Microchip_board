@@ -1,0 +1,9 @@
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\library\version_features.c
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\library\common.h
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\include\mbedtls/build_info.h
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\include\mbedtls/mbedtls_config.h
+.\obj\version_features.o: ..\..\..\..\..\..\common\utils\parts.h
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\include\mbedtls/check_config.h
+.\obj\version_features.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
+.\obj\version_features.o: ..\..\..\..\..\mbed-tls\include\mbedtls/version.h
+.\obj\version_features.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h

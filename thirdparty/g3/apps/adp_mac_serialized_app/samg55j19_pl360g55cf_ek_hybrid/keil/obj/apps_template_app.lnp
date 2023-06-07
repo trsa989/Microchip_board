@@ -1,4 +1,4 @@
---cpu=Cortex-M4 --fpu=SoftVFP
+--cpu=Cortex-M4.fp.sp --lto
 ".\obj\startup_samg55.o"
 ".\obj\retarget.o"
 ".\obj\system_samg55.o"
@@ -134,7 +134,7 @@
 ".\obj\supportfunctionsf16.o"
 ".\obj\transformfunctions.o"
 ".\obj\transformfunctionsf16.o"
---diag_suppress 66 --strict --scatter ".\samg55j19.sct"
+--library_type=microlib --diag_suppress 66 --strict --scatter ".\samg55j19.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\lst\apps_template_app.map" -o .\obj\apps_template_app.axf

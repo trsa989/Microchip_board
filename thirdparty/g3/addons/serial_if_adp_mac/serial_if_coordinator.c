@@ -58,7 +58,7 @@
 #include "AdpApiTypes.h"
 #include "mac_wrapper.h"
 #include "usi.h"
-
+#include "bs_functions.h"
 #define UNUSED(v)          (void)(v)
 
 /* / @cond 0 */
@@ -362,7 +362,65 @@ static enum ESerialStatus _triggerCoordGetRequest(const uint8_t *puc_msg_content
 static enum ESerialStatus _triggerCoordKickRequest(const uint8_t *puc_msg_content)
 {
 	enum ESerialStatus status = SERIAL_STATUS_NOT_ALLOWED;
+	#define ISKRA_REQUEST_MODE
+	
+	#ifdef ISKRA_REQUEST_MODE
+	extern uint8_t g_puc_data[100];
+	extern uint16_t g_us_length;
+	uint16_t us_short_addr;
+	uint8_t us_long_mac_address[8];
+	struct TAdpAddress dstAddr;
+	uint8_t *puc_buffer = (uint8_t *)puc_msg_content;
+	if (adp_mac_serial_if_get_state() == SERIAL_MODE_ADP)
+	{
+		us_short_addr = *((uint16_t *)(puc_buffer));
+		memcpy(us_long_mac_address, &puc_buffer[2], 8);
+		/* Send KICK to the device */
+		dstAddr.m_u8AddrSize = 2;
+		dstAddr.m_u16ShortAddr = us_short_addr;
+		#if AD_HOC_SERIAL_IF_COORDINATOR_DEBUG
+		printf("AdpLbpRequest us_short_addr = %04X\r\n\r\n", us_short_addr);
+		printf("AdpLbpRequest dstAddr.m_u16ShortAddr = %04X\r\n\r\n", dstAddr.m_u16ShortAddr);
+		#endif	
+		/*bs_get_ext_addr_by_short(us_short_addr, us_long_mac_address);*/
 
+		g_us_length = Encode_kick_to_LBD(us_long_mac_address, sizeof(g_puc_data), g_puc_data);
+		
+			#if AD_HOC_SERIAL_IF_COORDINATOR_DEBUG
+			uint32_t localCunter;
+			printf("AdpLbpRequest payload\r\n\r\n");
+			for(localCunter = 0; localCunter < g_us_length; localCunter++)
+			{
+				printf("%02X", g_puc_data[localCunter]);
+			}
+			printf("\r\n\r\n");
+			#endif		
+
+		/* If message was properly encoded, send it */
+		if (g_us_length) {
+			AdpLbpRequest((struct TAdpAddress const *)&dstAddr,     /* Destination address */
+					g_us_length,                            /* NSDU length */
+					g_puc_data,                             /* NSDU */
+					get_next_nsdu_handler(),                /* NSDU handle */
+					get_bs_configuration()->m_u8MaxHop,     /* Max. Hops */
+					true,                                   /* Discover route */
+					0,                                      /* QoS */
+					false);                                 /* Security enable */
+
+			}
+		status = SERIAL_STATUS_SUCCESS;
+	}
+	else if (adp_mac_serial_if_get_state() == SERIAL_MODE_COORD)
+	{
+		us_short_addr = ((uint16_t)*puc_buffer++) << 8;
+		us_short_addr += (uint16_t)*puc_buffer;
+
+		bs_lbp_kick_device(us_short_addr);
+
+		status = SERIAL_STATUS_SUCCESS;		
+		
+	}
+	#else
 	uint16_t us_short_addr;
 	uint8_t *puc_buffer = (uint8_t *)puc_msg_content;
 
@@ -374,7 +432,7 @@ static enum ESerialStatus _triggerCoordKickRequest(const uint8_t *puc_msg_conten
 
 		status = SERIAL_STATUS_SUCCESS;
 	}
-
+	#endif
 	return status;
 }
 

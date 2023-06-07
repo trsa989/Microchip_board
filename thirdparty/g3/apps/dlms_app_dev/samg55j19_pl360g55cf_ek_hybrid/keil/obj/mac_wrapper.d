@@ -1,0 +1,17 @@
+.\obj\mac_wrapper.o: ..\..\..\..\mac_wrapper\source\mac_wrapper.c
+.\obj\mac_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\mac_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\mac_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\mac_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdarg.h
+.\obj\mac_wrapper.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\mac_wrapper.o: ..\..\..\conf_global.h
+.\obj\mac_wrapper.o: ..\conf_tables.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac_wrapper\include\mac_wrapper.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac\include\MacApi.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac\include\MacMib.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac\include\MacDefs.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac_rf\include\MacRfApi.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac_rf\include\MacRfMib.h
+.\obj\mac_wrapper.o: ..\..\..\..\mac_rf\include\MacRfDefs.h
+.\obj\mac_wrapper.o: ..\..\..\..\common\include\Logger.h

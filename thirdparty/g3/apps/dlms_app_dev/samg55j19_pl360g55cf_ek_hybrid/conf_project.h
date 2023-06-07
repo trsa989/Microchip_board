@@ -46,16 +46,17 @@
 
 /* Define work band */
 #define CONF_BAND_CENELEC_A
+/*#define CONF_BAND_FCC*/
 
 /* Port mapping for USI and Console */
 
 /* USI. Select One or None of the following options */
 /* #define USI_ON_MIKROBUS_USART */
-/* #define USI_ON_USB */
+ #define USI_ON_USB 
 
 /* Console. Select One or None of the following options */
-/* #define CONSOLE_ON_MIKROBUS_USART */
-#define CONSOLE_ON_USB
+ #define CONSOLE_ON_MIKROBUS_USART
+/*#define CONSOLE_ON_USB*/
 
 #if defined(USI_ON_MIKROBUS_USART) && defined(CONSOLE_ON_MIKROBUS_USART)
 #error "USI and Console cannot be both mapped to MikroBUS USART"

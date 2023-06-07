@@ -136,6 +136,8 @@ static void AdpNotification_LbpConfirm(struct TAdpLbpConfirm *pLbpConfirm)
 	t_bootstrap_slot *p_current_slot = NULL;
 
 	bool b_is_accepted_confirm = false;
+	
+	LOG_BOOTSTRAP(("[BS] AdpNotification_LbpConfirm \r\n"));
 
 	for (uc_i = 0; uc_i < BOOTSTRAP_NUM_SLOTS; uc_i++) {
 		t_bootstrap_slot *p_slot = get_bootstrap_slot_by_index(uc_i);

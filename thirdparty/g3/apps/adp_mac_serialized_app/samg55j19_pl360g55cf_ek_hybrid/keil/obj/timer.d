@@ -1,6 +1,5 @@
-.\obj\timer.o: ..\..\..\..\common\source\Timer.c
-.\obj\timer.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
-.\obj\timer.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\timer.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\timer.o: ..\..\..\..\common\include\Timer.h
-.\obj\timer.o: ..\..\..\..\common\include\Logger.h
+./obj/timer.o: ..\..\..\..\common\source\Timer.c \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\..\..\..\common\include\Timer.h ..\..\..\..\common\include\Logger.h

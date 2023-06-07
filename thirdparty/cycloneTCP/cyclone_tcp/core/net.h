@@ -63,8 +63,9 @@ struct _NetInterface;
  * If you fully understand and accept the terms of the evalution license, then
  * edit the os_port_config.h header and add the following directive:
  *
- * #define EVAL_LICENSE_TERMS_ACCEPTED
  */
+#define EVAL_LICENSE_TERMS_ACCEPTED
+
 
 #ifndef EVAL_LICENSE_TERMS_ACCEPTED
    #error Before compiling CycloneTCP Eval, you must accept the terms of the evaluation license

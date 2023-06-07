@@ -1,20 +1,20 @@
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\library\cipher.c
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\library\common.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/build_info.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/mbedtls_config.h
-.\obj\cipher.o: ..\..\..\..\..\..\common\utils\parts.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/check_config.h
-.\obj\cipher.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cipher.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/private_access.h
-.\obj\cipher.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/platform_util.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\library\cipher_wrap.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/error.h
-.\obj\cipher.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdlib.h
-.\obj\cipher.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/gcm.h
-.\obj\cipher.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/ccm.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cmac.h
-.\obj\cipher.o: ..\..\..\..\..\mbed-tls\include\mbedtls/platform.h
+./obj/cipher.o: ..\..\..\..\..\mbed-tls\library\cipher.c \
+  ..\..\..\..\..\mbed-tls\library\common.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\build_info.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\mbedtls_config.h \
+  ..\..\..\..\..\..\common\utils\parts.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\check_config.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\limits.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\cipher.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\private_access.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\platform_util.h \
+  ..\..\..\..\..\mbed-tls\library\cipher_wrap.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\error.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\gcm.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\ccm.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\cmac.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\platform.h

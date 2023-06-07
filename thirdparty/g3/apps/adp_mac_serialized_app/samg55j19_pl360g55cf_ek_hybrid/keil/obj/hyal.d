@@ -1,10 +1,11 @@
-.\obj\hyal.o: ..\..\..\..\hyal\source\hyal.c
-.\obj\hyal.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
-.\obj\hyal.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\hyal.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\hyal.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdarg.h
-.\obj\hyal.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdio.h
-.\obj\hyal.o: ..\..\..\..\hyal\include\hyal.h
-.\obj\hyal.o: ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h
-.\obj\hyal.o: ..\..\..\..\mac_wrapper\include\mac_wrapper.h
-.\obj\hyal.o: ..\..\..\..\common\include\Logger.h
+./obj/hyal.o: ..\..\..\..\hyal\source\hyal.c \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdarg.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  ..\..\..\..\hyal\include\hyal.h \
+  ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h \
+  ..\..\..\..\mac_wrapper\include\mac_wrapper.h \
+  ..\..\..\..\mac_wrapper\include\mac_wrapper_defs.h \
+  ..\..\..\..\common\include\Logger.h

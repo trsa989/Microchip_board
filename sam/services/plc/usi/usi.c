@@ -573,6 +573,18 @@ static uint8_t _process_msg(uint8_t *puc_rx_buf)
  */
 static uint8_t _doEoMsg(uint8_t *puc_rx_buf, uint16_t us_msg_size)
 {
+	
+	typedef struct __attribute__((__packed__))PLcMsgLen
+	{
+	unsigned int unused1 : 14;
+	unsigned int extra_size : 2;
+	unsigned int msgType : 6;
+	unsigned int msgLen_ext : 10;
+	}PLcMsgLen;
+	
+	uint32_t lRecMessagelen;
+	PLcMsgLen* plMessagelen;
+	
 	uint32_t ul_rx_crc;
 	uint32_t ul_ev_crc;
 	uint8_t *puc_tb;
@@ -593,11 +605,24 @@ static uint8_t _doEoMsg(uint8_t *puc_rx_buf, uint16_t us_msg_size)
 	}
 
 	/* Extract length */
-	if ((uc_type == PROTOCOL_ADP_G3) || (uc_type == PROTOCOL_COORD_G3) || (uc_type == PROTOCOL_PRIME_API)) {
-		us_len = XLEN_PROTOCOL(puc_rx_buf[LEN_PROTOCOL_HI_OFFSET], puc_rx_buf[LEN_PROTOCOL_LO_OFFSET], puc_rx_buf[XLEN_PROTOCOL_OFFSET]);
-	} else {
-		us_len = LEN_PROTOCOL(puc_rx_buf[LEN_PROTOCOL_HI_OFFSET], puc_rx_buf[LEN_PROTOCOL_LO_OFFSET]);
-	}
+	/*if ((uc_type == PROTOCOL_ADP_G3) || (uc_type == PROTOCOL_COORD_G3) || (uc_type == PROTOCOL_PRIME_API)) {*/
+		/*us_len = XLEN_PROTOCOL(puc_rx_buf[LEN_PROTOCOL_HI_OFFSET], puc_rx_buf[LEN_PROTOCOL_LO_OFFSET], puc_rx_buf[XLEN_PROTOCOL_OFFSET]);*/
+		lRecMessagelen = __REV(*((unsigned int *)puc_rx_buf));
+		#if AD_HOC_USI_DEBUG
+		printf("lRecMessagelen\r\n\r\n");
+		printf("%X", lRecMessagelen);
+		printf("\r\n\r\n");
+		#endif
+		plMessagelen = (PLcMsgLen *)&lRecMessagelen;
+		us_len = plMessagelen->extra_size * 1024 + plMessagelen->msgLen_ext;
+		#if AD_HOC_USI_DEBUG
+		printf("UART REC PACKET LEN\r\n\r\n");
+		printf("%d", us_len);
+		printf("\r\n\r\n");
+		#endif
+	/*} else {*/
+	/*	us_len = LEN_PROTOCOL(puc_rx_buf[LEN_PROTOCOL_HI_OFFSET], puc_rx_buf[LEN_PROTOCOL_LO_OFFSET]);*/
+	/*}*/
 
 	/* Protection for invalid length */
 	if (!us_len && !((uc_type == PROTOCOL_MNGP_PRIME_RESET) || (uc_type == PROTOCOL_MNGP_PRIME_REBOOT))) {

@@ -1,15 +1,15 @@
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\library\cmac.c
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\library\common.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/build_info.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/mbedtls_config.h
-.\obj\cmac.o: ..\..\..\..\..\..\common\utils\parts.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/check_config.h
-.\obj\cmac.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cmac.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/private_access.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/cipher.h
-.\obj\cmac.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/platform_util.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/error.h
-.\obj\cmac.o: ..\..\..\..\..\mbed-tls\include\mbedtls/platform.h
-.\obj\cmac.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+./obj/cmac.o: ..\..\..\..\..\mbed-tls\library\cmac.c \
+  ..\..\..\..\..\mbed-tls\library\common.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\build_info.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\mbedtls_config.h \
+  ..\..\..\..\..\..\common\utils\parts.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\check_config.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\limits.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\cmac.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\private_access.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\cipher.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\platform_util.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\error.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\platform.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h

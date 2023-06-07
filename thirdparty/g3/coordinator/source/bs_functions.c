@@ -95,8 +95,10 @@ static bool _is_valid_address(uint16_t us_short_address)
 {
 	/* Check if the short address is out of the range */
 	if (us_short_address < g_current_context.initialShortAddr) {
+		LOG_BOOTSTRAP(("[BS] Error encoding us_short_address < g_current_context.initialShortAddr\r\n"));
 		return false;
 	} else if (us_short_address - g_current_context.initialShortAddr > MAX_LBDS) {
+		LOG_BOOTSTRAP(("[BS] Error encoding us_short_address - g_current_context.initialShortAddr > MAX_LBDS\r\n"));
 		return false;
 	} else {
 		return true;
@@ -176,11 +178,13 @@ uint8_t device_is_in_list(uint16_t us_short_address)
 {
 	/* Check if the short address is out of the range */
 	if (!_is_valid_address(us_short_address)) {
+		LOG_BOOTSTRAP(("[BS] Error encoding is_valid_address\r\n"));
 		return (0);
 	}
 
 	/* Check if the address of the device is active */
 	if (is_null_address(g_lbds_list[us_short_address - g_current_context.initialShortAddr].puc_extended_address)) {
+		LOG_BOOTSTRAP(("[BS] Error encoding is_null_address\r\n"));
 		return (0);
 	} else {
 		return (1);
@@ -339,7 +343,21 @@ bool bs_get_ext_addr_by_short(uint16_t us_short_address, uint8_t *puc_extended_a
 	uint16_t us_index;
 	bool found = false;
 
+	/*LOG_BOOTSTRAP(("[BS] us_short_address: %d.\r\n", us_short_address));*/
+	/*LOG_BOOTSTRAP(("[BS] g_current_context.initialShortAddr: %d.\r\n", g_current_context.initialShortAddr));*/
 	us_index = us_short_address - g_current_context.initialShortAddr;
+	/*LOG_BOOTSTRAP(("[BS] us_index: %d.\r\n", us_index));*/
+	/*for(uint32_t i = 0;i < 500; i++)*/
+	/*{*/
+	/*LOG_BOOTSTRAP(("[BS] Selected extended address [%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X]\r\n",*/
+	/*	*g_lbds_list[i].puc_extended_address, *(g_lbds_list[i].puc_extended_address + 1), *(g_lbds_list[i].puc_extended_address + 2),*/
+	/*	*(g_lbds_list[i].puc_extended_address + 3), *(g_lbds_list[i].puc_extended_address + 4), *(g_lbds_list[i].puc_extended_address + 5),*/
+	/*	*(g_lbds_list[i].puc_extended_address + 6), *(g_lbds_list[i].puc_extended_address + 7)));		*/
+	/*}*/
+	LOG_BOOTSTRAP(("[BS] Selected extended address [%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X]\r\n",
+		*g_lbds_list[us_index].puc_extended_address, *(g_lbds_list[us_index].puc_extended_address + 1), *(g_lbds_list[us_index].puc_extended_address + 2),
+		*(g_lbds_list[us_index].puc_extended_address + 3), *(g_lbds_list[us_index].puc_extended_address + 4), *(g_lbds_list[us_index].puc_extended_address + 5),
+		*(g_lbds_list[us_index].puc_extended_address + 6), *(g_lbds_list[us_index].puc_extended_address + 7)));
 
 	if (!is_null_address(g_lbds_list[us_index].puc_extended_address)) {
 		memcpy(puc_extended_address, g_lbds_list[us_index].puc_extended_address, ADP_ADDRESS_64BITS);

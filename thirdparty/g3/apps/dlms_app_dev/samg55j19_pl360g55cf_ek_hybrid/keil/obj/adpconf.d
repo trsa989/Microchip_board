@@ -1,0 +1,9 @@
+.\obj\adpconf.o: ..\..\..\..\adp\AdpConf.c
+.\obj\adpconf.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\adpconf.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\adpconf.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\adpconf.o: ..\..\..\conf_global.h
+.\obj\adpconf.o: ..\conf_tables.h
+.\obj\adpconf.o: ..\..\..\..\adp\include\AdpSharedTypes.h
+.\obj\adpconf.o: ..\..\..\..\adp\include\AdpApiTypes.h
+.\obj\adpconf.o: ..\..\..\..\common\include\Timer.h

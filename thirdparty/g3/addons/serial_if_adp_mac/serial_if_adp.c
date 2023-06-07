@@ -1201,6 +1201,16 @@ static void AdpNotification_PathDiscoveryConfirm(struct TAdpPathDiscoveryConfirm
 	uint8_t us_serial_response_len;
 	uint8_t u8Index;
 
+	#if AD_HOC_SERIAL_IF_IF_DEBUG
+		uint32_t localCunter;
+		printf("AdpNotification_PathDiscoveryConfirm payload\r\n\r\n");
+		for(localCunter = 0; localCunter < sizeof(struct TAdpPathDiscoveryConfirm); localCunter++)
+		{
+			printf("%02X", ((uint8_t*)pPathDiscoveryConfirm)[localCunter]);
+		}
+		printf("\r\n\r\n");
+	#endif	
+	
 	us_serial_response_len = 0;
 	uc_serial_rsp_buf[us_serial_response_len++] = SERIAL_MSG_ADP_PATH_DISCOVERY_CONFIRM;
 	uc_serial_rsp_buf[us_serial_response_len++] = pPathDiscoveryConfirm->m_u8Status;
@@ -2083,6 +2093,16 @@ static enum ESerialStatus _triggerAdpPathDiscoveryRequest(const uint8_t *puc_msg
 	uint16_t u16DstAddr;
 	uint8_t u8MetricType;
 	uint8_t *puc_buffer = (uint8_t *)puc_msg_content;
+
+		#if AD_HOC_SERIAL_IF_IF_DEBUG
+		uint32_t localCunter;
+		printf("_triggerAdpPathDiscoveryRequest payload\r\n\r\n");
+		for(localCunter = 0; localCunter < 3; localCunter++)
+		{
+			printf("%02X", puc_buffer[localCunter]);
+		}
+		printf("\r\n\r\n");
+		#endif	
 
 	if (adp_mac_serial_if_get_state() == SERIAL_MODE_ADP || adp_mac_serial_if_get_state() == SERIAL_MODE_COORD) {
 		u16DstAddr = ((uint16_t)*puc_buffer++) << 8;

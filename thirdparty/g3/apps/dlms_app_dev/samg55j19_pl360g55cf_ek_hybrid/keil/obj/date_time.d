@@ -1,0 +1,12 @@
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\common\date_time.c
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\common\date_time.h
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\time.h
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\common\os_port.h
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\module_config\os_port_config.h
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\common\compiler_port.h
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\date_time.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\inttypes.h
+.\obj\date_time.o: ..\..\..\..\..\cycloneTCP\common\os_port_none.h

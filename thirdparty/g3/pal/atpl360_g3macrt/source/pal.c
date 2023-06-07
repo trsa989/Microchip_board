@@ -21,7 +21,7 @@
 /* Mac includes */
 #include "mac_wrapper_defs.h"
 
-#define AD_HOC_PAL_DEBUG 1
+#define AD_HOC_PAL_DEBUG 0
 
 #ifdef PAL_DEBUG_ENABLE
 #define LOG_PAL_DEBUG(a)   printf a

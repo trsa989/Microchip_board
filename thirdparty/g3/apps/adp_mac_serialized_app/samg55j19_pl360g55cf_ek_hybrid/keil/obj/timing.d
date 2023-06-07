@@ -1,7 +1,7 @@
-.\obj\timing.o: ..\..\..\..\..\mbed-tls\library\timing.c
-.\obj\timing.o: ..\..\..\..\..\mbed-tls\library\common.h
-.\obj\timing.o: ..\..\..\..\..\mbed-tls\include\mbedtls/build_info.h
-.\obj\timing.o: ..\..\..\..\..\mbed-tls\include\mbedtls/mbedtls_config.h
-.\obj\timing.o: ..\..\..\..\..\..\common\utils\parts.h
-.\obj\timing.o: ..\..\..\..\..\mbed-tls\include\mbedtls/check_config.h
-.\obj\timing.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
+./obj/timing.o: ..\..\..\..\..\mbed-tls\library\timing.c \
+  ..\..\..\..\..\mbed-tls\library\common.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\build_info.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\mbedtls_config.h \
+  ..\..\..\..\..\..\common\utils\parts.h \
+  ..\..\..\..\..\mbed-tls\include\mbedtls\check_config.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\limits.h

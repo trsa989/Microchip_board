@@ -1,21 +1,25 @@
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\CommonTables.c
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_common_tables.c
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_math_types.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_compiler.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armcc.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\math.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\float.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\limits.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_common_tables.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/fast_math_functions.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_math_memory.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/none.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/utils.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/basic_math_functions.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_const_structs.c
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_const_structs.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/transform_functions.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp/complex_math_functions.h
-.\obj\commontables.o: C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_mve_tables.c
+./obj/commontables.o: \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\CommonTables.c \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_common_tables.c \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_math_types.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_compiler.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include\cmsis_armclang.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\string.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\math.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\float.h \
+  C:\Keil_Repo\ARM\ARMCLANG\Bin\..\include\limits.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_common_tables.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_math_types.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\fast_math_functions.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_math_memory.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\none.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\utils.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\basic_math_functions.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_const_structs.c \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_const_structs.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\arm_common_tables.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\transform_functions.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\complex_math_functions.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Include\dsp\fast_math_functions.h \
+  C:\Keil_Repo\ARM\PACK\ARM\CMSIS\5.9.0\CMSIS\DSP\Source\CommonTables\arm_mve_tables.c

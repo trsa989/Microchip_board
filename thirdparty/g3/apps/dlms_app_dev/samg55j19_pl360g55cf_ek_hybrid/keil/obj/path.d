@@ -1,0 +1,11 @@
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\common\path.c
+.\obj\path.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\string.h
+.\obj\path.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\ctype.h
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\common\path.h
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\common\os_port.h
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\module_config\os_port_config.h
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\common\compiler_port.h
+.\obj\path.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stddef.h
+.\obj\path.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\path.o: C:\Keil_Repo\ARM\ARMCC\Bin\..\include\inttypes.h
+.\obj\path.o: ..\..\..\..\..\cycloneTCP\common\os_port_none.h

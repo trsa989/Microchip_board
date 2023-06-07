@@ -17,7 +17,7 @@
 #ifndef __PAL_SUBLAYER_H__
 #define __PAL_SUBLAYER_H__
 
-/* #define PAL_DEBUG_ENABLE */
+/*#define PAL_DEBUG_ENABLE */
 
 void pal_sniffer_mode_enable(void);
 void pal_sniffer_mode_disable(void);
