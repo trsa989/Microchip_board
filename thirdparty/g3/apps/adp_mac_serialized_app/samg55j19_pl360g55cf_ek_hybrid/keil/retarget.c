@@ -39,7 +39,7 @@ int fputc(int c, FILE *f)
 	#ifdef CONSOLE_UART
 		return (usart_serial_putchar((usart_if)CONSOLE_UART, c));
 	#else
-		return 0;
+	return ITM_SendChar(c);
 	#endif
 #endif
 }

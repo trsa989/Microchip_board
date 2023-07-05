@@ -908,9 +908,9 @@ void platform_init_power_down_det(void)
 	supc_enable_monitor(SUPC);
 #else
 	/* Set continuous monitoring (every SLCK cycle) */
-	supc_set_monitor_sampling_period(SUPC, 0x00000100);
+	supc_set_monitor_sampling_period(SUPC, CONTINUOUS_MONITORING);
 	/* Threshold set to 3.04 Volts */
-	supc_set_monitor_threshold(SUPC, 0x0000000C);
+	supc_set_monitor_threshold(SUPC, PLATFORM_PDD_MONITOR_THRESHOLD);
 	/* Configure monitor to raise interrupt */
 	supc_enable_monitor_interrupt(SUPC);
 	/* Configure and enable SUPC interrupt */

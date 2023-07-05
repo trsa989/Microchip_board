@@ -55,7 +55,7 @@ extern "C" {
 #include <stdint.h>
 
 /* @} */
-#define AD_HOC_SERIAL_IF_COORDINATOR_DEBUG 1
+#define AD_HOC_SERIAL_IF_COORDINATOR_DEBUG 0
 /* ! \name PHY serial interface */
 /* @{ */
 void serial_if_coordinator_init(void);

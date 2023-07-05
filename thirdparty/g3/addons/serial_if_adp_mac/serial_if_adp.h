@@ -58,7 +58,7 @@ extern "C" {
 /* @{ */
 #define IFACE_SERIAL_G3_ADP_ENABLE  0x1
 #define IFACE_SNIFFER_G3_ADP_ENABLE 0x2
-#define AD_HOC_SERIAL_IF_IF_DEBUG 1
+#define AD_HOC_SERIAL_IF_IF_DEBUG 0
 /* @} */
 
 /* @} */

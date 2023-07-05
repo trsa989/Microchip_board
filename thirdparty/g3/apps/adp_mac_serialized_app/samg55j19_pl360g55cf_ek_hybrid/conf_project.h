@@ -55,7 +55,7 @@
 
 /* Console. Select One or None of the following options */
 /*#define CONSOLE_ON_MIKROBUS_USART*/
-#define CONSOLE_ON_USB
+//#define CONSOLE_ON_USB
 
 #if defined(USI_ON_MIKROBUS_USART) && defined(CONSOLE_ON_MIKROBUS_USART)
 #error "USI and Console cannot be both mapped to MikroBUS USART"

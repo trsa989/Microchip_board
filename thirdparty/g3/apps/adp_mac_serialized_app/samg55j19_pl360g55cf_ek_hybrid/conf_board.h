@@ -37,12 +37,14 @@
 
 /* Keep watchdog at board initialization (not disable it) */
 #define CONF_BOARD_KEEP_WATCHDOG_AT_INIT
-
+#if 0
 /* Configure console UART (mikroBUS TX and RX pins) */
 #define CONF_BOARD_UART_CONSOLE
 #define CONSOLE_UART                   MIKRO_BUS_USART
 #define CONSOLE_UART_ID                ID_FLEXCOM4
-
+#else
+#define CONF_BOARD_UART_MIKROBUS
+#endif
 /* Configure MIKROBUS_SPI (connected to ATREB215-XPRO SPI) */
 #define CONF_BOARD_SPI_MIKROBUS
 
