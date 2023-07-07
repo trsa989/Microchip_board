@@ -58,6 +58,8 @@
 #include "usi.h"
 #include <storage/storage.h>
 #include "conf_project.h"
+#include "conf_usi.h"
+#include "pal.h"
 
 #define UNUSED(v)          (void)(v)
 
@@ -68,6 +70,7 @@ extern "C" {
 #endif
 /**INDENT-ON**/
 /* / @endcond */
+
 
 /* Known message ids */
 enum ESerialMessageId {
@@ -92,6 +95,7 @@ enum ESerialMessageId {
 	SERIAL_MSG_ADP_MAC_GET_REQUEST,
 	SERIAL_MSG_ADP_REQUEST_MESSAGES_END = SERIAL_MSG_ADP_MAC_GET_REQUEST,
 	SERIAL_MSG_ADP_STATUS = 26,
+	SERIAL_MSG_ENABLE_SNIFFER = 27,
 
 	SERIAL_MSG_ADP_DATA_CONFIRM = 30,
 	SERIAL_MSG_ADP_DATA_INDICATION,
@@ -195,6 +199,33 @@ static void MsgModemStatus(enum ESerialStatus status, uint8_t uc_serial_if_cmd)
 	us_serial_response_len = 0;
 	uc_serial_rsp_buf[us_serial_response_len++] = uc_serial_if_cmd;
 	uc_serial_rsp_buf[us_serial_response_len++] = status;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
+}
+
+/**********************************************************************************************************************/
+
+/**
+ **********************************************************************************************************************/
+static void MsgSnifferStatus(enum ESerialStatus status, uint8_t uc_serial_if_cmd)
+{
+	uint8_t us_serial_response_len = 0;
+	uint8_t sniffer_status;
+	if(status == SERIAL_STATUS_SUCCESS)
+	{
+		sniffer_status = 0;
+	}
+	else
+	{
+		sniffer_status = 0xa2;
+	}
+	status = SERIAL_STATUS_SUCCESS; // restore status
+	
+	uc_serial_rsp_buf[us_serial_response_len++] = uc_serial_if_cmd;
+	uc_serial_rsp_buf[us_serial_response_len++] = sniffer_status;
 	/* set usi parameters */
 	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
 	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
@@ -1254,6 +1285,7 @@ static void AdpNotification_PathDiscoveryConfirm(struct TAdpPathDiscoveryConfirm
 
 /**
  **********************************************************************************************************************/
+//static int once = 1;
 static enum ESerialStatus _triggerAdpStatusRequest(const uint8_t *puc_msg_content)
 {
 	enum ESerialStatus status = SERIAL_STATUS_NOT_ALLOWED;
@@ -1263,6 +1295,41 @@ static enum ESerialStatus _triggerAdpStatusRequest(const uint8_t *puc_msg_conten
 
 
 /**********************************************************************************************************************/
+
+/**
+ **********************************************************************************************************************/
+static enum ESerialStatus _triggerAdpSnifferEnable(const uint8_t *puc_msg_content)
+{
+	enum ESerialStatus status; // use status as operation success flag
+	
+	int enable = *puc_msg_content;
+	int res;
+	//printf("sniffer state=%d\r\n\r\n", enable);
+	
+	if(enable == 1)
+	{
+		res = SnifferEnableRuntime();
+	}
+	else
+	{
+		res = SnifferDisableRuntime();
+	}
+	
+	
+	if(res == 1)
+	{
+		status = SERIAL_STATUS_SUCCESS;
+	}
+	else
+	{
+		status = SERIAL_STATUS_NOT_ALLOWED;
+	}
+	return status;
+}
+
+
+/**********************************************************************************************************************/
+
 
 /**
  **********************************************************************************************************************/
@@ -2136,6 +2203,10 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 	case SERIAL_MSG_ADP_STATUS:
 		status = _triggerAdpStatusRequest(puc_rx);
 		break;
+	
+	case SERIAL_MSG_ENABLE_SNIFFER:
+		status = _triggerAdpSnifferEnable(puc_rx);
+		break;
 
 	case SERIAL_MSG_ADP_INITIALIZE:
 		status = _triggerAdpInitialize(puc_rx);
@@ -2201,6 +2272,10 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 	{
 		MsgModemStatus(status, uc_serial_if_cmd);
 		status = SERIAL_STATUS_SUCCESS;
+	}
+	else if(uc_serial_if_cmd == SERIAL_MSG_ENABLE_SNIFFER)
+	{
+		MsgSnifferStatus(status, uc_serial_if_cmd);
 	}
 	else
 	{

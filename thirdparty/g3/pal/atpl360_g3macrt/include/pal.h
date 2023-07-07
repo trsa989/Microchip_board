@@ -22,6 +22,10 @@
 void pal_sniffer_mode_enable(void);
 void pal_sniffer_mode_disable(void);
 
+// Runtime sniffer enable/disable functions
+int SnifferEnableRuntime(void);
+int SnifferDisableRuntime(void);
+
 #endif
 
 /**********************************************************************************************************************/

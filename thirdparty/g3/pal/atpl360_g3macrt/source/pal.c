@@ -33,6 +33,11 @@
 #define CONF_PHY_SNIFFER_MODE
 #endif
 
+// enable sniffer operation in runtime
+static int sniffer_enabled_runtime = 0; // sniffer is disabled by default, this flag determines if sniffer was enabled/disabled at runtime
+static int sniffer_ready_runtime = 0; // this flag shows if sniffer was initialized
+static int sniffer_past_sb_trx_check = 0;  // enable or disable command can be (silently)aborted, this guaranties that command is executed
+
 /* Data indication Led */
 #define COUNT_SWAP_LED    50
 static uint32_t sul_count = 0;
@@ -97,14 +102,14 @@ static const struct TMacRtMib g_MacRtMibDefaults = {
 	false, /* m_bCoordinator */
 };
 
-#ifdef CONF_PHY_SNIFFER_MODE
+//#ifdef CONF_PHY_SNIFFER_MODE
 #include "usi.h"
 static x_usi_serial_cmd_params_t sx_usi_msg;
 
 /* PHY sniffer buffer */
 static uint8_t spuc_phy_sniffer_buf[div8_ceil(sizeof(phy_snf_frm_t)) << 3];
 static bool sb_phy_sniffer_pend;
-#endif
+//#endif
 
 static void _exception_event_cb(atpl360_exception_t exception)
 {
@@ -348,8 +353,8 @@ static uint32_t _get_atpl360_bin_addressing(uint32_t *pul_address, uint8_t u8Ban
 		extern uint8_t atpl_bin_cena_start;
 		extern uint8_t atpl_bin_cena_end;
 		ul_bin_addr = (int)&atpl_bin_cena_start;
-		puc_bin_start = (int)&atpl_bin_cena_start;
-		puc_bin_end = (int)&atpl_bin_cena_end;
+		puc_bin_start = &atpl_bin_cena_start;
+		puc_bin_end = &atpl_bin_cena_end;
 	}
 
     #elif defined (__ICCARM__)
@@ -531,6 +536,12 @@ void MacRtInitialize(uint8_t u8Band, struct TMacRtNotifications *pNotifications,
 
 	/* Enable PHY Sniffer Mode */
 	pal_sniffer_mode_enable();
+#else
+	/* Init USI */
+	/* PHY Sniffer Mode can be enabled in runtime, default is not */
+	sx_usi_msg.uc_protocol_type = PROTOCOL_SNIF_G3;
+	sx_usi_msg.ptr_buf = spuc_phy_sniffer_buf;
+	sniffer_ready_runtime = 1;
 #endif
 
 	LOG_PAL_DEBUG(("MacRtInitialize ok\r\n"));
@@ -582,6 +593,32 @@ void MacRtEventHandler(void)
 		/* Send to USI */
 		sx_usi_msg.us_len = us_len;
 		usi_send_cmd(&sx_usi_msg);
+	}
+#else
+	
+	if(sniffer_enabled_runtime == 1 && sniffer_ready_runtime == 1)
+	{
+		/* Phy Sniffer Attend */
+		if (sb_phy_sniffer_pend) {
+			uint16_t us_len;
+
+			sb_phy_sniffer_pend = false;
+
+			/* Get data len */
+			us_len = ((uint16_t)spuc_phy_sniffer_buf[23]) << 8;
+			us_len += spuc_phy_sniffer_buf[24];
+			/* Add length of sniffer fields */
+			us_len += (sizeof(phy_snf_frm_t) - ATPL360_MAX_PHY_DATA_LENGTH);
+
+			/* Check correct length */
+			if (us_len > sizeof(phy_snf_frm_t)) {
+				us_len = sizeof(phy_snf_frm_t);
+			}
+
+			/* Send to USI */
+			sx_usi_msg.us_len = us_len;
+			usi_send_cmd(&sx_usi_msg);
+		}
 	}
 #endif
 }
@@ -721,7 +758,46 @@ enum EMacRtStatus MacRtSetRequestSync(enum EMacRtPibAttribute eAttribute, uint16
 	return uc_res;
 }
 
-#ifdef CONF_PHY_SNIFFER_MODE
+//#ifdef CONF_PHY_SNIFFER_MODE
+
+
+// Runtime sniffer enable
+int SnifferEnableRuntime()
+{
+	#if defined(ENABLE_SNIFFER)
+	return 0; // return failed to execute command
+	#else
+	if(sniffer_ready_runtime == 1)
+	{		
+		pal_sniffer_mode_enable();
+		if(sniffer_past_sb_trx_check)
+		{
+			sniffer_enabled_runtime = 1;
+			return 1;
+		}
+	}
+	return 0;
+	#endif
+}
+
+// Runtime sniffer disable
+int SnifferDisableRuntime()
+{
+	#if defined(ENABLE_SNIFFER)
+	return 0; // return failed to execute command
+	#else
+	if(sniffer_ready_runtime == 1)
+	{		
+		pal_sniffer_mode_disable();
+		if(sniffer_past_sb_trx_check)
+		{
+			sniffer_enabled_runtime = 0;
+			return 1;
+		}
+	}
+	return 0;
+	#endif
+}
 
 /**
  * \brief Handler to receive serial data from Sniffer APP.
@@ -741,11 +817,13 @@ static void _phy_sniffer_handler(void)
 
 void pal_sniffer_mode_enable(void)
 {
+	sniffer_past_sb_trx_check = 0;
+	
 	if (!sb_trx_available) {
 		/* Ignore request */
 		return;
 	}
-
+	sniffer_past_sb_trx_check = 1;
 	sb_phy_sniffer_pend = false;
 	/* Set buffer from PAL */
 	atpl360_sniffer_mode_enable(spuc_phy_sniffer_buf, _phy_sniffer_handler);
@@ -756,14 +834,16 @@ void pal_sniffer_mode_enable(void)
 
 void pal_sniffer_mode_disable(void)
 {
+	sniffer_past_sb_trx_check = 0;
 	if (!sb_trx_available) {
 		/* Ignore request */
 		return;
 	}
-
+	sniffer_past_sb_trx_check = 1;
+	
 	sb_phy_sniffer_pend = false;
 	/* Reset pointer to the callback function */
 	atpl360_sniffer_mode_disable();
 }
 
-#endif
+//#endif

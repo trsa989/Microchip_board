@@ -10,14 +10,14 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>6160000::V6.16::ARMCLANG</pArmCC>
-      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
+      <pArmCC>6190000::V6.19::ARMCLANG</pArmCC>
+      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>ATSAMG55J19</Device>
           <Vendor>Atmel</Vendor>
-          <PackID>Microchip.SAMG_DFP.3.7.83</PackID>
+          <PackID>Microchip.SAMG_DFP.3.8.197</PackID>
           <PackURL>https://packs.download.microchip.com/</PackURL>
           <Cpu>IROM(0x00400000,0x80000) IRAM(0x20000000,0x28000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -187,6 +187,7 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -337,7 +338,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls> -fgnu</MiscControls>
+              <MiscControls> -fgnu -Wno-implicit-function-declaration</MiscControls>
               <Define>__G3_STACK__ __SAMG55J19__ UDD_ENABLE BOARD=PL360G55CF_EK G3_HYBRID_PROFILE __FREERTOS__ ARM_MATH_CM4=true</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\..\routing_wrapper\source;..\..\..\..\..\..\sam\services\plc\usi;..\..\..\..\..\..\common\services\ioport;..\..;..\..\..\..\..\..\common\services\usb\class\cdc\device;..\..\..\..\..\freertos\freertos-7.3.0\source\include;..\..\..\..\..\..\common\services\usb;..\..\..\..\phy\atpl360\coup_tx_config;..\..\..\..\routing_loadng\include;..\..\..\..\..\..\sam\boards;..\..\..\..\..\..\sam\services\plc\buart_if;..\..\..\..\..\..\sam\utils\preprocessor;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\source\templates;..\..\..\..\..\..\common\utils;..\..\..\..\..\..\sam\drivers\pio;..\..\..\..\pal_rf\rf215_g3mac\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_tx_rx;..\..\..\..\..\..\common\components\rf\at86rf215\addons\sniffer_if\g3;..\..\..\..\..\mbed-tls\include;..\..\..\..\..\..\sam\services\plc\usb_wrp;..\..\..\..\coordinator\source;..\..\..\..\..\..\common\utils\stdio\stdio_serial;..\..\..\..\..\..\sam\services\flash_efc;..\..\..\..\..\..\common\utils\stdio\stdio_udc;..\..\..\..\..\..\sam\drivers\spi;..\..\..\..\coordinator\include;..\..\..\..\..\..\sam\utils;..\..\..\..\routing_loadng\source;..\..\..\..\..\..\sam\drivers\udp;..\..\..\..\mac_rt\include;..\..\..\..\bootstrap_wrapper\source;..\..\..\..\..\..\sam\drivers\pdc;..\..\..\..\common\source;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_pll;..\..\..\..\phy\atpl360\coup_tx_config\coup_conf\pl360_cen_a_fcc;..\..\..\..\oss;..\..\..\..\..\..\sam\drivers\flexcom;..\..\..\..\bootstrap_wrapper\include;..\..\..\..\..\..\sam\utils\header_files;..\..\..\..;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_bbc;..\..\..\..\..\..\sam\services\plc\busart_if;..\..\..\..\..\..\sam\services\plc\pcrc;..\..\..\..\adp\include;..\..\..;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\include;..\..\..\..\..\freertos\freertos-7.3.0\source\portable\iar\sam_cm4f;..\..\..\..\routing_wrapper\include;..;..\..\..\..\..\..\sam\drivers\wdt;..\..\..\..\..\..\sam\boards\pl360g55cf_ek;..\..\..\..\..\..\sam\drivers\pmc;..\..\..\..\..\..\common\components\rf\at86rf215\addons;..\..\..\..\addons\serial_if_adp_mac;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_fe;..\..\..\..\mac\include;..\..\..\..\pal\atpl360_g3macrt\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt\mac_rt;..\..\..\..\..\..\common\services\gpio;..\..\..\..\..\..\sam\drivers\efc;..\..\..\..\..\..\sam\drivers\matrix;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_common;..\..\..\..\bootstrap_lbp\include;..\..\..\..\..\..\common\services\sleepmgr;..\..\..\..\phy\atpl360\coup_tx_config\coup_params;..\..\..\..\..\..\sam\utils\fpu;..\..\..\..\phy\atpl360\coup_tx_config\pl360_wrp\g3_mac_rt;..\..\..\..\..\..\common\services\serial;..\..\..\..\..\..\common\boards;..\..\..\..\..\..\sam\drivers\tc;..\..\..\..\..\..\common\services\usb\udc;..\..\..\..\..\..\sam\services\plc\pplc_if\atpl360;..\..\..\..\..\..\sam\drivers\adc;..\..\..\..\hyal\include;..\..\..\..\..\..\sam\drivers\gpbr;..\..\..\..\..\..\common\services\delay;..\..\..\..\..\..\common\services\usb\class\cdc;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_irq;..\..\..\..\bootstrap_lbp\source;..\..\..\..\..\..\common\components\rf\at86rf215;..\..\..\..\..\mbed-tls\library;..\..\..\..\..\..\sam\services\timer_1us;..\..\..\..\..\..\sam\drivers\supc;..\..\..\..\..\..\common\services\clock;..\..\..\..\mac_rf\include;..\..\..\..\common\include;..\..\..\..\..\..\common\services\serial\sam_uart;..\..\..\..\..\..\sam\services\rf\prf_if\at86rf215;..\..\..\..\mac_wrapper\include;..\..\..\..\..\..\sam\drivers\usart;.</IncludePath>
@@ -1285,6 +1286,9 @@
         <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -1298,8 +1302,14 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Source" Cvendor="ARM" Cversion="1.10.0" condition="CMSIS DSP">
-        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
+      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Source" Cvendor="ARM" Cversion="1.14.2" condition="CMSISCORE">
+        <package name="CMSIS-DSP" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="1.14.2"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="ITM" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with ITM">
+        <package name="ARM_Compiler" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="Keil" version="1.7.2"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
