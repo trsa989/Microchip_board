@@ -51,7 +51,7 @@
 #define STORAGE_VERSION 1
 #endif
 
-/*#define STORAGE_DEBUG_ENABLE*/
+//#define STORAGE_DEBUG_ENABLE
 /* struct to store persistent data from stack (MAC & ADP) */
 struct TPersistentData {
 	uint32_t m_u32FrameCounter;

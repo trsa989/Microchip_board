@@ -1346,7 +1346,7 @@ static enum ESerialStatus _triggerAdpInitialize(const uint8_t *puc_msg_content)
 	AdpMacSetRequestSync(MAC_WRP_PIB_MANUF_EXTENDED_ADDRESS, 0, sizeof(auc_ext_address_adp), auc_ext_address_adp, &macSetConfirm);
 
 	adp_mac_serial_if_set_state(SERIAL_MODE_ADP);
-
+	
 #ifdef ENABLE_PIB_RESTORE
 	load_persistent_info();
 #endif

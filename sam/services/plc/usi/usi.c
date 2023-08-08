@@ -64,7 +64,7 @@ extern "C" {
 /**INDENT-ON**/
 /* @endcond */
 
-#define AD_HOC_USI_DEBUG 1
+//#define AD_HOC_USI_DEBUG 1
 
 #ifdef NUM_PORTS
 

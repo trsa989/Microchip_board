@@ -80,7 +80,6 @@ static bool _update_persistent_data_GPBR(struct TPersistentData *data, bool b_up
 void store_persistent_info(void)
 {
 	LOG_STORAGE(("PDD_CB: Persistent data stored.\r\n"));
-
 	_get_persistent_data(&persistentInfo.m_data);
 
 	/* Persistent info Header */
@@ -89,6 +88,7 @@ void store_persistent_info(void)
 
 	/* Write internal data to the persistent storage */
 	platform_write_storage(sizeof(struct TPersistentInfo), &persistentInfo);
+	
 }
 
 /**
@@ -142,7 +142,7 @@ void load_persistent_info(void)
 		} else if (persistentInfo.m_u16Version != STORAGE_VERSION) {
 			LOG_STORAGE(("load_persistent_info() storage version error.\r\n"));
 			b_upd_info = false;
-		}
+		} else printf("CRC match and STORAGE_VERSION match");
 	} else {
 		LOG_STORAGE(("load_persistent_info() unable to read storage.\r\n"));
 		b_upd_info = false;
@@ -150,7 +150,7 @@ void load_persistent_info(void)
 	
 	/* Increment startup counter */
 	persistentInfo.m_u32StartupCounter++;
-
+	
 	/* Set Values to G3 Stack */
 	if (_update_persistent_data_GPBR(&persistentInfo.m_data, b_upd_info)) {
 		_set_persistent_data(&persistentInfo.m_data);
@@ -286,12 +286,31 @@ static bool _update_persistent_data_GPBR(struct TPersistentData *data, bool b_up
 	if ((RSTC_RSTC_SR & RSTC_SR_RSTTYP_Msk) != RSTC_SR_RSTTYP_GeneralReset) {
 #endif
 		/* Not a power down reset: read from GPBR */
-		_read_persistent_data_GPBR(data);
-		if (data->m_u32FrameCounter < 0xFFFFFFFF) {
+		if (b_upd_info) {
+			_write_persistent_data_GPBR(data);
 			res = true;
-			LOG_STORAGE(("Not a power down reset: read from GPBR.\r\n"));
-		} else {
-			LOG_STORAGE(("Not a power down reset: GPBR invalid.\r\n"));
+			//LOG_STORAGE(("Unkown power down or reset, user signature data valid.\r\n"));
+			
+			//_read_persistent_data_GPBR(data);
+			if(data->m_u32FrameCounter < 0xFFFFFFFF) {
+				res = true;
+				LOG_STORAGE(("Unkown power down or reset, user signature data valid\r\n"));
+			} else {
+				LOG_STORAGE(("Unkown power down or reset, user signature data invalid\r\n"));
+			}
+		}
+		else
+		{
+			/* Do nothing, GPBR's update in each tx */
+			LOG_STORAGE(("Unkown power down or reset: Try reading GPBR.\r\n"));
+			_read_persistent_data_GPBR(data);
+			if(data->m_u32FrameCounter < 0xFFFFFFFF) {
+				res = true;
+				LOG_STORAGE(("Persistent data read from GPBR.\r\n"));
+			} else {
+				LOG_STORAGE(("GPBR invalid.\r\n"));
+			}
+			
 		}
 	} else {
 		/* Power down reset */
