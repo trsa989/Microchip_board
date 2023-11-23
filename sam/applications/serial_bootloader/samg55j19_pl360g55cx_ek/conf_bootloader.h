@@ -42,6 +42,7 @@
 
 #define APP_START_ADDRESS          (IFLASH_ADDR + 0x4000) /* 16 KB for Bootloader */
 #define APP_FRAG_MAX_SIZE          0x10000 /* 64 KB */
+#define APP_ADDITIONAL_INFO_BASE	 0x4041E0
 
 #define BOOT_LOAD_PIN              IOPORT_CREATE_PIN(PIOA, 18)
 
@@ -49,7 +50,7 @@
 
 #define BOOT_USART                 CONSOLE_UART
 #define BOOT_USART_ID              CONSOLE_UART_ID
-#define BOOT_USART_BAUDRATE        115200
+#define BOOT_USART_BAUDRATE        921600
 #define BOOT_USART_PARITY          US_MR_PAR_NO
 #define BOOT_USART_CHAR_LENGTH     US_MR_CHRL_8_BIT
 #define BOOT_USART_STOP_BITS       US_MR_NBSTOP_1_BIT

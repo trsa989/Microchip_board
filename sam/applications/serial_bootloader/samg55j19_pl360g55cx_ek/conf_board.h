@@ -46,6 +46,8 @@
 
 /* Enable watchdog */
 #define CONF_BOARD_KEEP_WATCHDOG_AT_INIT
+#define WDT_KEY_PASSWORD  0xA5000000
+#define RESET_WDT (WDT->WDT_CR = WDT_KEY_PASSWORD | WDT_CR_WDRSTT)
 
 /* Configure console UART */
 #define CONF_BOARD_UART_CONSOLE

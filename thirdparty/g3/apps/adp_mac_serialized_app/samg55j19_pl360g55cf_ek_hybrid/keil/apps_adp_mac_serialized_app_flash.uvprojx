@@ -81,10 +81,10 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
+            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg2>1</RunUserProg2>
+            <UserProg1Name>$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L</UserProg1Name>
+            <UserProg2Name>python3 bl_helper.py @L.bin SERIAL_BOOTLOADER.bin</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>
@@ -334,14 +334,14 @@
             <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
-            <v6Lto>1</v6Lto>
+            <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls> -fgnu -Wno-implicit-function-declaration</MiscControls>
               <Define>__G3_STACK__ __SAMG55J19__ UDD_ENABLE BOARD=PL360G55CF_EK G3_HYBRID_PROFILE __FREERTOS__ ARM_MATH_CM4=true</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\routing_wrapper\source;..\..\..\..\..\..\sam\services\plc\usi;..\..\..\..\..\..\common\services\ioport;..\..;..\..\..\..\..\..\common\services\usb\class\cdc\device;..\..\..\..\..\freertos\freertos-7.3.0\source\include;..\..\..\..\..\..\common\services\usb;..\..\..\..\phy\atpl360\coup_tx_config;..\..\..\..\routing_loadng\include;..\..\..\..\..\..\sam\boards;..\..\..\..\..\..\sam\services\plc\buart_if;..\..\..\..\..\..\sam\utils\preprocessor;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\source\templates;..\..\..\..\..\..\common\utils;..\..\..\..\..\..\sam\drivers\pio;..\..\..\..\pal_rf\rf215_g3mac\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_tx_rx;..\..\..\..\..\..\common\components\rf\at86rf215\addons\sniffer_if\g3;..\..\..\..\..\mbed-tls\include;..\..\..\..\..\..\sam\services\plc\usb_wrp;..\..\..\..\coordinator\source;..\..\..\..\..\..\common\utils\stdio\stdio_serial;..\..\..\..\..\..\sam\services\flash_efc;..\..\..\..\..\..\common\utils\stdio\stdio_udc;..\..\..\..\..\..\sam\drivers\spi;..\..\..\..\coordinator\include;..\..\..\..\..\..\sam\utils;..\..\..\..\routing_loadng\source;..\..\..\..\..\..\sam\drivers\udp;..\..\..\..\mac_rt\include;..\..\..\..\bootstrap_wrapper\source;..\..\..\..\..\..\sam\drivers\pdc;..\..\..\..\common\source;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_pll;..\..\..\..\phy\atpl360\coup_tx_config\coup_conf\pl360_cen_a_fcc;..\..\..\..\oss;..\..\..\..\..\..\sam\drivers\flexcom;..\..\..\..\bootstrap_wrapper\include;..\..\..\..\..\..\sam\utils\header_files;..\..\..\..;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_bbc;..\..\..\..\..\..\sam\services\plc\busart_if;..\..\..\..\..\..\sam\services\plc\pcrc;..\..\..\..\adp\include;..\..\..;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\include;..\..\..\..\..\freertos\freertos-7.3.0\source\portable\iar\sam_cm4f;..\..\..\..\routing_wrapper\include;..;..\..\..\..\..\..\sam\drivers\wdt;..\..\..\..\..\..\sam\boards\pl360g55cf_ek;..\..\..\..\..\..\sam\drivers\pmc;..\..\..\..\..\..\common\components\rf\at86rf215\addons;..\..\..\..\addons\serial_if_adp_mac;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_fe;..\..\..\..\mac\include;..\..\..\..\pal\atpl360_g3macrt\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt\mac_rt;..\..\..\..\..\..\common\services\gpio;..\..\..\..\..\..\sam\drivers\efc;..\..\..\..\..\..\sam\drivers\matrix;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_common;..\..\..\..\bootstrap_lbp\include;..\..\..\..\..\..\common\services\sleepmgr;..\..\..\..\phy\atpl360\coup_tx_config\coup_params;..\..\..\..\..\..\sam\utils\fpu;..\..\..\..\phy\atpl360\coup_tx_config\pl360_wrp\g3_mac_rt;..\..\..\..\..\..\common\services\serial;..\..\..\..\..\..\common\boards;..\..\..\..\..\..\sam\drivers\tc;..\..\..\..\..\..\common\services\usb\udc;..\..\..\..\..\..\sam\services\plc\pplc_if\atpl360;..\..\..\..\..\..\sam\drivers\adc;..\..\..\..\hyal\include;..\..\..\..\..\..\sam\drivers\gpbr;..\..\..\..\..\..\common\services\delay;..\..\..\..\..\..\common\services\usb\class\cdc;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_irq;..\..\..\..\bootstrap_lbp\source;..\..\..\..\..\..\common\components\rf\at86rf215;..\..\..\..\..\mbed-tls\library;..\..\..\..\..\..\sam\services\timer_1us;..\..\..\..\..\..\sam\drivers\supc;..\..\..\..\..\..\common\services\clock;..\..\..\..\mac_rf\include;..\..\..\..\common\include;..\..\..\..\..\..\common\services\serial\sam_uart;..\..\..\..\..\..\sam\services\rf\prf_if\at86rf215;..\..\..\..\mac_wrapper\include;..\..\..\..\..\..\sam\drivers\usart;.</IncludePath>
+              <IncludePath>..\..\..\..\routing_wrapper\source;..\..\..\..\..\..\sam\services\plc\usi;..\..\..\..\..\..\common\services\ioport;..\..;..\..\..\..\..\..\common\services\usb\class\cdc\device;..\..\..\..\..\freertos\freertos-7.3.0\source\include;..\..\..\..\..\..\common\services\usb;..\..\..\..\phy\atpl360\coup_tx_config;..\..\..\..\routing_loadng\include;..\..\..\..\..\..\sam\boards;..\..\..\..\..\..\sam\services\plc\buart_if;..\..\..\..\..\..\sam\utils\preprocessor;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\source\templates;..\..\..\..\..\..\common\utils;..\..\..\..\..\..\sam\drivers\pio;..\..\..\..\pal_rf\rf215_g3mac\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_tx_rx;..\..\..\..\..\..\common\components\rf\at86rf215\addons\sniffer_if\g3;..\..\..\..\..\mbed-tls\include;..\..\..\..\..\..\sam\services\plc\usb_wrp;..\..\..\..\coordinator\source;..\..\..\..\..\..\common\utils\stdio\stdio_serial;..\..\..\..\..\..\sam\services\flash_efc;..\..\..\..\..\..\common\utils\stdio\stdio_udc;..\..\..\..\..\..\sam\drivers\spi;..\..\..\..\coordinator\include;..\..\..\..\..\..\sam\utils;..\..\..\..\routing_loadng\source;..\..\..\..\..\..\sam\drivers\udp;..\..\..\..\mac_rt\include;..\..\..\..\bootstrap_wrapper\source;..\..\..\..\..\..\sam\drivers\pdc;..\..\..\..\common\source;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_pll;..\..\..\..\phy\atpl360\coup_tx_config\coup_conf\pl360_cen_a_fcc;..\..\..\..\oss;..\..\..\..\..\..\sam\drivers\flexcom;..\..\..\..\bootstrap_wrapper\include;..\..\..\..\..\..\sam\utils\header_files;..\..\..\..;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_bbc;..\..\..\..\..\..\sam\services\plc\busart_if;..\..\..\..\..\..\sam\services\plc\pcrc;..\..\..\..\adp\include;..\..\..;..\..\..\..\..\..\sam\utils\cmsis\samg\samg55\include;..\..\..\..\..\freertos\freertos-7.3.0\source\portable\iar\sam_cm4f;..\..\..\..\routing_wrapper\include;..;..\..\..\..\..\..\sam\drivers\wdt;..\..\..\..\..\..\sam\boards\pl360g55cf_ek;..\..\..\..\..\..\sam\drivers\pmc;..\..\..\..\..\..\common\components\rf\at86rf215\addons;..\..\..\..\addons\serial_if_adp_mac;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_fe;..\..\..\..\mac\include;..\..\..\..\pal\atpl360_g3macrt\include;..\..\..\..\..\..\common\components\plc\atpl360_g3_mac_rt\mac_rt;..\..\..\..\..\..\common\services\gpio;..\..\..\..\..\..\sam\drivers\efc;..\..\..\..\..\..\sam\drivers\matrix;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_common;..\..\..\..\bootstrap_lbp\include;..\..\..\..\..\..\common\services\sleepmgr;..\..\..\..\phy\atpl360\coup_tx_config\coup_params;..\..\..\..\..\..\sam\utils\fpu;..\..\..\..\phy\atpl360\coup_tx_config\pl360_wrp\g3_mac_rt;..\..\..\..\..\..\common\services\serial;..\..\..\..\..\..\common\boards;..\..\..\..\..\..\sam\drivers\tc;..\..\..\..\..\..\common\services\usb\udc;..\..\..\..\..\..\sam\services\plc\pplc_if\atpl360;..\..\..\..\..\..\sam\drivers\adc;..\..\..\..\hyal\include;..\..\..\..\..\..\sam\drivers\gpbr;..\..\..\..\..\..\common\services\delay;..\..\..\..\..\..\common\services\usb\class\cdc;..\..\..\..\..\..\common\components\rf\at86rf215\rf215_irq;..\..\..\..\bootstrap_lbp\source;..\..\..\..\..\..\common\components\rf\at86rf215;..\..\..\..\..\mbed-tls\library;..\..\..\..\..\..\sam\services\timer_1us;..\..\..\..\..\..\sam\drivers\supc;..\..\..\..\..\..\common\services\clock;..\..\..\..\mac_rf\include;..\..\..\..\common\include;..\..\..\..\..\..\common\services\serial\sam_uart;..\..\..\..\..\..\sam\services\rf\prf_if\at86rf215;..\..\..\..\mac_wrapper\include;..\..\..\..\..\..\sam\drivers\usart;.;..\..\..\..\..\tdc_nis</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1284,6 +1284,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>tdc_nis</GroupName>
+          <Files>
+            <File>
+              <FileName>bootloader_update.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\tdc_nis\bootloader_update.c</FilePath>
+            </File>
+            <File>
+              <FileName>bootloader_update.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\..\tdc_nis\bootloader_update.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
@@ -1302,8 +1317,8 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Source" Cvendor="ARM" Cversion="1.14.2" condition="CMSISCORE">
-        <package name="CMSIS-DSP" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="1.14.2"/>
+      <component Cclass="CMSIS" Cgroup="DSP" Cvariant="Source" Cvendor="ARM" Cversion="1.15.0" condition="CMSISCORE">
+        <package name="CMSIS-DSP" schemaVersion="1.7.7" url="https://www.keil.com/pack/" vendor="ARM" version="1.15.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>

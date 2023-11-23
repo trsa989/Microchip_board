@@ -72,6 +72,9 @@
 
 #include "serial_if_common.h"
 
+/* Reserve structures for additional persistant data for bootloader */
+unsigned char const BootloaderStructure[16] __attribute__((used, section("boot_loader_consistency_structure")));
+unsigned char const ImageCrc[2]  __attribute__((used, section("image_crc")));
 /**
  * \brief Main code entry point.
  */

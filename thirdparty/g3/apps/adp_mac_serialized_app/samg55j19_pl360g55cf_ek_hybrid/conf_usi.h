@@ -55,7 +55,7 @@
 
 /* Configure USI port, selection from conf_project.h */
 #ifdef USI_ON_MIKROBUS_USART
-#  define PORT_0 CONF_PORT(USART_TYPE, 0, 230400, 2048, 2048)
+#  define PORT_0 CONF_PORT(USART_TYPE, 0, 921600, 4096, 4096)
 #else
 #  ifdef USI_ON_USB
 #    define PORT_0 CONF_PORT(USB_TYPE, 0, 230400, 2048, 2018)

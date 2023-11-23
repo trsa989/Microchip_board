@@ -60,6 +60,7 @@
 #include "conf_project.h"
 #include "conf_usi.h"
 #include "pal.h"
+#include "bootloader_update.h"
 
 #define UNUSED(v)          (void)(v)
 
@@ -119,6 +120,11 @@ enum ESerialMessageId {
 	SERIAL_MSG_ADP_PREQ_INDICATION,
 	SERIAL_MSG_ADP_UPD_NON_VOLATILE_DATA_INDICATION,
 	SERIAL_MSG_ADP_ROUTE_NOT_FOUND_INDICATION,
+	
+	/* User specific commands*/
+	SERIAL_MSG_GET_BUILD_TIME = 60,
+	SERIAL_MSG_REFLASH_BOOTLOADER,
+	SERIAL_MSG_JUMP_TO_BOOTLOADER
 };
 
 /* Status codes related to HostInterface processing */
@@ -1285,7 +1291,6 @@ static void AdpNotification_PathDiscoveryConfirm(struct TAdpPathDiscoveryConfirm
 
 /**
  **********************************************************************************************************************/
-//static int once = 1;
 static enum ESerialStatus _triggerAdpStatusRequest(const uint8_t *puc_msg_content)
 {
 	enum ESerialStatus status = SERIAL_STATUS_NOT_ALLOWED;
@@ -1304,7 +1309,6 @@ static enum ESerialStatus _triggerAdpSnifferEnable(const uint8_t *puc_msg_conten
 	
 	int enable = *puc_msg_content;
 	int res;
-	//printf("sniffer state=%d\r\n\r\n", enable);
 	
 	if(enable == 1)
 	{
@@ -1330,6 +1334,59 @@ static enum ESerialStatus _triggerAdpSnifferEnable(const uint8_t *puc_msg_conten
 
 /**********************************************************************************************************************/
 
+/**
+ **********************************************************************************************************************/
+static enum ESerialStatus _triggerAdpGetBuildTime(const uint8_t *puc_msg_content)
+{
+	CheckVersion();
+	
+	uint32_t us_serial_response_len = 0;
+	uc_serial_rsp_buf[us_serial_response_len++] = SERIAL_MSG_GET_BUILD_TIME;
+	uc_serial_rsp_buf[us_serial_response_len++] = 0x0;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
+	return SERIAL_STATUS_SUCCESS;
+}
+/**********************************************************************************************************************/
+
+/**
+ **********************************************************************************************************************/
+static enum ESerialStatus _triggerAdpReflashBootloader(const uint8_t *puc_msg_content)
+{
+	ReplaceBootloader();
+	
+	uint32_t us_serial_response_len = 0;
+	uc_serial_rsp_buf[us_serial_response_len++] = SERIAL_MSG_REFLASH_BOOTLOADER;
+	uc_serial_rsp_buf[us_serial_response_len++] = 0x0;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
+	return SERIAL_STATUS_SUCCESS;
+}
+/**********************************************************************************************************************/
+
+/**
+ **********************************************************************************************************************/
+static enum ESerialStatus _triggerAdpJumpToBootloader(const uint8_t *puc_msg_content)
+{
+	uint32_t us_serial_response_len = 0;
+	uc_serial_rsp_buf[us_serial_response_len++] = SERIAL_MSG_JUMP_TO_BOOTLOADER;
+	uc_serial_rsp_buf[us_serial_response_len++] = 0x0;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
+	
+	JumpToBootloader();
+	return SERIAL_STATUS_SUCCESS;
+}
+/**********************************************************************************************************************/
 
 /**
  **********************************************************************************************************************/
@@ -2203,11 +2260,18 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 	case SERIAL_MSG_ADP_STATUS:
 		status = _triggerAdpStatusRequest(puc_rx);
 		break;
-	
 	case SERIAL_MSG_ENABLE_SNIFFER:
 		status = _triggerAdpSnifferEnable(puc_rx);
 		break;
-
+	case SERIAL_MSG_GET_BUILD_TIME:
+		status = _triggerAdpGetBuildTime(puc_rx);
+		break;
+	case SERIAL_MSG_REFLASH_BOOTLOADER:
+		status = _triggerAdpReflashBootloader(puc_rx);
+		break;
+	case SERIAL_MSG_JUMP_TO_BOOTLOADER:
+		status = _triggerAdpJumpToBootloader(puc_rx);
+		break;
 	case SERIAL_MSG_ADP_INITIALIZE:
 		status = _triggerAdpInitialize(puc_rx);
 		break;

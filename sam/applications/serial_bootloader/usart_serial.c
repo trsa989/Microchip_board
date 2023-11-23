@@ -39,12 +39,18 @@
 #include "conf_board.h"
 #include "conf_clock.h"
 #include "conf_bootloader.h"
+#include "serial_monitor.h"
+
+extern const unsigned short crc16_lookup_table[256];
+
+static uint16_t updateCRC(unsigned char c, unsigned short crc);
 
 /* Variable to let the main task select the appropriate communication interface */
 volatile uint8_t b_sharp_received;
 
 static bool sb_receiving_file = false;
 
+static bool rogue_bytes = false;
 /**
  * \brief Open the given USART
  */
@@ -186,11 +192,24 @@ static uint16_t getbytes(uint8_t *ptr_data, uint16_t length)
 
 	for (cpt = 0; cpt < length; ++cpt) {
 		c = usart_getc();
-		crc = add_crc(c, crc);
+		crc = updateCRC(c, crc);
 		/* crc = (crc << 8) ^ xcrc16tab[(crc>>8) ^ c]; */
 		*ptr_data++ = c;
 	}
 
+	return crc;
+	
+}
+
+static uint16_t updateCRC(unsigned char c, unsigned short crc)
+{
+	uint16_t tmp, short_c;
+	
+	short_c = /*0xff00 & */(((uint16_t)c) << 8);
+	tmp = crc ^ short_c;
+	crc = tmp << 8;
+	crc = (crc) ^ crc16_lookup_table[(tmp >> 8)/* & 0xff*/];
+	
 	return crc;
 }
 
@@ -233,6 +252,13 @@ uint8_t getPacket(uint8_t *ptr_data, uint8_t sno)
 	uint16_t crc, xcrc;
 
 	getbytes(seq, 2);
+	if((seq[0] != sno) || (seq[1] != (uint8_t)(~sno)))
+	{
+		/* Sequence bytes are invalid */
+		usart_putc(NAK);
+		rogue_bytes = true;
+		return (false);
+	}
 	xcrc = getbytes(ptr_data, PKTLEN_128);
 
 	/* An "endian independent way to combine the CRC bytes. */
@@ -243,7 +269,6 @@ uint8_t getPacket(uint8_t *ptr_data, uint8_t sno)
 		usart_putc(NAK);
 		return (false);
 	}
-
 	usart_putc(ACK);
 	return (true);
 }
@@ -329,7 +354,7 @@ uint32_t usart_getdata_xmd(void *data, uint32_t length)
 	char c;
 	uint8_t *ptr_data = (uint8_t *)data;
 	uint32_t ul_data_nb = 0;
-	uint32_t b_run, nbr_of_timeout = 100;
+	uint32_t b_run, nbr_of_timeout = 40;
 	uint8_t sno = 0x01;
 
 	/* Copied from legacy source code ... might need some tweaking */
@@ -348,11 +373,13 @@ uint32_t usart_getdata_xmd(void *data, uint32_t length)
 			while (!(usart_is_rx_ready(BOOT_USART)) && timeout) {
 				timeout--;
 			}
+			RESET_WDT;
 			if (timeout) {
 				break;
 			}
 
 			if (!(--nbr_of_timeout)) {
+				usart_timeout = true; /* Notify serial monitor that uart timeouted*/
 				return (0);
 			}
 		}
@@ -372,6 +399,7 @@ uint32_t usart_getdata_xmd(void *data, uint32_t length)
 				++sno;
 				ptr_data += PKTLEN_128;
 				ul_data_nb += PKTLEN_128;
+				RESET_WDT;
 			}
 
 			/* Check length of fragment */
@@ -383,6 +411,7 @@ uint32_t usart_getdata_xmd(void *data, uint32_t length)
 				if (c == EOT) {
 					usart_putc(ACK);
 					sb_receiving_file = false;
+					RESET_WDT;
 				}
 			}
 
@@ -392,10 +421,21 @@ uint32_t usart_getdata_xmd(void *data, uint32_t length)
 			usart_putc(ACK);
 			b_run = false;
 			sb_receiving_file = false;
+			RESET_WDT;
 			break;
 
 		case CAN:
 		/* "X" User-invoked abort */
+		case SHARP_CHARACTER:
+			if(rogue_bytes)
+			{
+				rogue_bytes = false;
+				break;
+			}
+			usart_timeout = true; /* Notify serial monitor that uart timeout happened*/
+			b_run = false;
+			sb_receiving_file = false;
+			break;
 		case ESC:
 		default:
 			b_run = false;

@@ -81,7 +81,7 @@
  * Add reste interrupt and handling store data
  */
 
-#define PLATFORM_RST_INTERRUPT
+//#define PLATFORM_RST_INTERRUPT
 #define PLATFORM_DEAFAULT_NMI_HANDLING
 
 /**********************************************************************************************************************/

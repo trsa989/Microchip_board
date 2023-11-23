@@ -48,6 +48,8 @@
 /* Selects USB as the communication interface of the monitor */
 #define SIZEBUFMAX                  64
 
+extern bool usart_timeout; /* Notify serial monitor that some kind of timeout occured */
+
 /**
  * \brief Initialize the monitor
  *
@@ -69,5 +71,6 @@ void serial_putdata_term(uint8_t *data, uint32_t length);
  * \brief
  */
 void call_app(uint32_t address);
+void check_start_application_from_console(void);
 
 #endif /* _MONITOR_SERIAL_H_ */

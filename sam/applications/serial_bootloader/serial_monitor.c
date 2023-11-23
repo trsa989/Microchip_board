@@ -40,6 +40,9 @@
 #include "usart_serial.h"
 #include "conf_board.h"
 #include "conf_bootloader.h"
+// added includes
+#include "flash_efc.h"
+#include "gpbr.h"
 
 const char RomBOOT_Version[] = SERIAL_BOOT_VERSION;
 
@@ -151,6 +154,7 @@ void serial_putdata_term(uint8_t *data, uint32_t length)
 	return;
 }
 
+bool usart_timeout = false;
 uint32_t current_number;
 uint32_t i, length;
 static uint32_t sul_fragment_size;
@@ -172,6 +176,7 @@ void serial_monitor_run(void)
 	while (1) {
 		length = ptr_monitor_if->getdata(data, SIZEBUFMAX);
 		ptr = data;
+		RESET_WDT;
 		for (i = 0; i < length; i++) {
 			if (b_terminal_mode) {
 				ptr_monitor_if->putdata(data, length);
@@ -193,13 +198,17 @@ void serial_monitor_run(void)
 						ptr_monitor_if->putdata("\n\r", 2);
 					}
 
+					RESET_WDT;
 					if (command == 'S') {
 						/* SERIAL command: Send a file */
 						/* Erase Flash memory */
+						usart_timeout = false;
 						ul_addr = APP_START_ADDRESS + 0x1000;
 						for (ul_idx = 0; ul_idx < 4; ul_idx++) {
 							flash_erase_sector(ul_addr + (0x20000 * ul_idx));
 						}
+						// flash is erased, clear GPBR
+						gpbr_write(GPBR3, 0);
 
 						/* Capture address to write binary file in flash memory */
 						ptr_data = ptr_address_cmd;
@@ -221,6 +230,10 @@ void serial_monitor_run(void)
 								sul_fragment_size = ptr_monitor_if->getdata_xmd(ptr, sul_fragment_size);
 							}
 
+							if(usart_timeout)
+							{
+								return; /* Abort current transaction */
+							}
 							if (sul_fragment_size) {
 								/* Update counters and pointers */
 								ptr += sul_fragment_size;
@@ -239,7 +252,7 @@ void serial_monitor_run(void)
 								ptr_data = ptr_address_cmd;
 								ptr = ptr_data;
 							}
-						}
+						} // end while (ul_idx < current_number)
 
 						/* Write flash memory */
 						flash_write(ul_addr, (const void *)ptr_data, ul_idx, 0);
@@ -270,9 +283,16 @@ void serial_monitor_run(void)
 						serial_putdata_term((uint8_t *)&current_number, 4);
 					} else if (command == 'G') {
 						/* Go */
+						uint8_t ack = 6;
+						ptr_monitor_if->putdata(&ack, 1);
 						delay_ms(100);
-						call_app(APP_START_ADDRESS);
-					} else if (command == 'T') {
+						check_start_application_from_console();
+						ptr_monitor_if->putdata("App is corrupted\n\r", 18); /* If we reach this statement app is corrupted */
+					}	else if (command == 'P') {
+						/* Reset processor and its peripherials */
+						Rstc *pHw = RSTC;
+						pHw->RSTC_CR = RSTC_CR_PROCRST | RSTC_CR_PERRST | RSTC_CR_EXTRST | RSTC_CR_KEY_PASSWD;
+					}	else if (command == 'T') {
 						/* SERIAL command: Set Terminal Mode */
 						b_terminal_mode = 1;
 						ptr_monitor_if->putdata("\n\r", 2);
@@ -281,7 +301,6 @@ void serial_monitor_run(void)
 						if (b_terminal_mode == 0) {
 							ptr_monitor_if->putdata("\n\r", 2);
 						}
-
 						b_terminal_mode = 0;
 					} else if (command == 'V') {
 						/* SERIAL command: Display version */

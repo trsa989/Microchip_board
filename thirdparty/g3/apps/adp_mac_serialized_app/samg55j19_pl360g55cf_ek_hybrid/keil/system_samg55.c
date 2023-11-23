@@ -64,7 +64,7 @@ void SystemInit( void )
                  (3UL << 11*2)  );           /* set CP11 Full Access               */
 #endif
 	
-  WDT->WDT_MR = WDT_MR_WDDIS;                /* disable Watchdog Setup             */
+  //WDT->WDT_MR = WDT_MR_WDDIS;                /* disable Watchdog Setup             */
 // Keil
 
   /*
@@ -76,7 +76,7 @@ void SystemInit( void )
    */
 
   /* Set FWS according to default clock configuration */
-  EFC->EEFC_FMR  =   EEFC_FMR_FWS(1);
+  //EFC->EEFC_FMR  =   EEFC_FMR_FWS(1);
 }
 
 void SystemCoreClockUpdate( void )

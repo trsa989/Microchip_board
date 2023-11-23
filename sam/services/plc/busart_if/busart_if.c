@@ -50,6 +50,7 @@
 #include "busart_if.h"
 #include "conf_busart_if.h"
 #include "conf_board.h"
+#include "pdc.h"
 
 /* @cond 0 */
 /**INDENT-OFF**/

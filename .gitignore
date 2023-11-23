@@ -63,7 +63,7 @@
 *.pdsc
 *.plg
 # define exception below if needed
-*.sct
+#*.sct
 *.sfd
 *.sfr
 
@@ -78,3 +78,12 @@
 # To explicitly override the above, define any exceptions here; e.g.:
 # !my_customized_scatter_file.sct
 
+#custom ignore
+thirdparty/g3/apps/adp_mac_serialized_app/samg55j19_pl360g55cf_ek_hybrid/keil/bininfo.txt
+sam/applications/serial_bootloader/samg55j19_pl360g55cx_ek/as5_arm/.vs/
+sam/applications/serial_bootloader/samg55j19_pl360g55cx_ek/as5_arm/Debug/
+*.scvd
+sam/applications/serial_bootloader/samg55j19_pl360g55cx_ek/as5_arm/JLinkLog.txt
+sam/applications/serial_bootloader/samg55j19_pl360g55cx_ek/as5_arm/Objects/
+sam/applications/serial_bootloader/samg55j19_pl360g55cx_ek/as5_arm/RTE/Device/
+*.componentinfo.xml

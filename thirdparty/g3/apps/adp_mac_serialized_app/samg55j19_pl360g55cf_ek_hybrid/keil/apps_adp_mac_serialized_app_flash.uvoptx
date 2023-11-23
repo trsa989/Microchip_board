@@ -119,7 +119,8 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGUARM</Key>
+          <Key>ST-LINKIII-KEIL_SWO</Key>
+          <Name>-U001F00323331510833323639 -O239 -SF1800 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP") -D00(0BE12477) -L00(0) -TO196627 -TC147000000 -TT10000000 -TP21 -TDS800C -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0ATSAMG_512.FLM -FS0400000 -FL080000 -FP0($$Device:ATSAMG55J19$samg55\keil\Flash\ATSAMG_512.FLM) -WA0 -WE0 -WVCE4 -WS2710 -WM0 -WP2</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -139,12 +140,12 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>JL2CM3</Key>
-          <Name>-U260117513 -O111 -S2 -ZTIFSpeedSel5000 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST2 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO19 -TC96000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC1000 -FN1 -FF0ATSAMG_512.FLM -FS0400000 -FL080000 -FP0($$Device:ATSAMG55J19$samg55\keil\Flash\ATSAMG_512.FLM)</Name>
+          <Name>-U260117513 -O111 -S2 -ZTIFSpeedSel5000 -A0 -C0 -JU1 -JI127.0.0.1 -JP0 -RST2 -N00("ARM CoreSight SW-DP") -D00(2BA01477) -L00(4) -TO19 -TC96000000 -TP21 -TDS8003 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -TB1 -TFE0 -FO7 -FD20000000 -FC1000 -FN1 -FF0ATSAMG_512.FLM -FS0400000 -FL080000 -FP0($$Device:ATSAMG55J19$samg55\keil\Flash\ATSAMG_512.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2CM3</Key>
-          <Name>-UAny -O175 -S9 -C0 -P00 -N00("ARM CoreSight JTAG-DP") -D00(4BA00477) -L00(4) -TO65554 -TC10000000 -TT10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0ATSAMG_512.FLM -FS0400000 -FL080000 -FP0($$Device:ATSAMG55J19$samg55\keil\Flash\ATSAMG_512.FLM)</Name>
+          <Name>-UAny -O175 -S9 -C0 -P00 -N00("ARM CoreSight JTAG-DP") -D00(4BA00477) -L00(4) -TO65555 -TC10000000 -TT10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0ATSAMG_512.FLM -FS0400000 -FL080000 -FP0($$Device:ATSAMG55J19$samg55\keil\Flash\ATSAMG_512.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
@@ -195,7 +196,7 @@
 
   <Group>
     <GroupName>Startup</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1976,6 +1977,38 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\..\..\..\sam\drivers\rstc\rstc.c</PathWithFileName>
       <FilenameWithoutPath>rstc.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>tdc_nis</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>64</GroupNumber>
+      <FileNumber>108</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\..\tdc_nis\bootloader_update.c</PathWithFileName>
+      <FilenameWithoutPath>bootloader_update.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>64</GroupNumber>
+      <FileNumber>109</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\..\..\..\tdc_nis\bootloader_update.h</PathWithFileName>
+      <FilenameWithoutPath>bootloader_update.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

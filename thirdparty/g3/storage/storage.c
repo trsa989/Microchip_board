@@ -142,7 +142,7 @@ void load_persistent_info(void)
 		} else if (persistentInfo.m_u16Version != STORAGE_VERSION) {
 			LOG_STORAGE(("load_persistent_info() storage version error.\r\n"));
 			b_upd_info = false;
-		} else printf("CRC match and STORAGE_VERSION match");
+		} else printf("CRC match and STORAGE_VERSION match\r\n");
 	} else {
 		LOG_STORAGE(("load_persistent_info() unable to read storage.\r\n"));
 		b_upd_info = false;
@@ -275,55 +275,45 @@ static void _write_persistent_data_GPBR(struct TPersistentData *data)
  */
 static bool _update_persistent_data_GPBR(struct TPersistentData *data, bool b_upd_info)
 {
-	bool res;
-
-	res = false;
-
-	/* Check last reset type and synchronize status of FC_KEY values between GPBR and FLASH */
-#if (SAMG || SAM4E || SAME70 || PIC32CX)
-	if ((RSTC_RSTC_SR & RSTC_SR_RSTTYP_Msk) != RSTC_SR_RSTTYP_GENERAL_RST) {
-#else
-	if ((RSTC_RSTC_SR & RSTC_SR_RSTTYP_Msk) != RSTC_SR_RSTTYP_GeneralReset) {
-#endif
-		/* Not a power down reset: read from GPBR */
-		if (b_upd_info) {
-			_write_persistent_data_GPBR(data);
-			res = true;
-			//LOG_STORAGE(("Unkown power down or reset, user signature data valid.\r\n"));
-			
-			//_read_persistent_data_GPBR(data);
-			if(data->m_u32FrameCounter < 0xFFFFFFFF) {
-				res = true;
-				LOG_STORAGE(("Unkown power down or reset, user signature data valid\r\n"));
-			} else {
-				LOG_STORAGE(("Unkown power down or reset, user signature data invalid\r\n"));
+	/* Needs additional logic for handling RF frame counter in future! */ 
+	bool res = false;
+	
+	if (b_upd_info) {
+		/* Persistent storage data is valid, which means it was power down reset*/
+		struct TPersistentData data_GPBR;
+		_read_persistent_data_GPBR(&data_GPBR);
+		if(data_GPBR.m_u32FrameCounter < 0xFFFFFFFF)
+		{
+			/* Data from GPBR is valid*/ 
+			/* Check which data is newer and update accordingly */
+			if(data_GPBR.m_u32FrameCounter > data->m_u32FrameCounter)
+			{
+				data->m_u32FrameCounter = data_GPBR.m_u32FrameCounter;
+				data->m_u16DiscoverSeqNumber = data_GPBR.m_u16DiscoverSeqNumber;
+				data->m_u8BroadcastSeqNumber = data_GPBR.m_u8BroadcastSeqNumber;
+				LOG_STORAGE(("Data read from GPBR is newer than persistent data from flash, using GPBR data.\r\n"));
 			}
 		}
 		else
 		{
-			/* Do nothing, GPBR's update in each tx */
-			LOG_STORAGE(("Unkown power down or reset: Try reading GPBR.\r\n"));
-			_read_persistent_data_GPBR(data);
-			if(data->m_u32FrameCounter < 0xFFFFFFFF) {
-				res = true;
-				LOG_STORAGE(("Persistent data read from GPBR.\r\n"));
-			} else {
-				LOG_STORAGE(("GPBR invalid.\r\n"));
-			}
-			
+			/* Data from GPBR is invalid, use data from persistant storage*/
+			LOG_STORAGE(("GPBR data is invalid, using data from persistant storage\r\n"));			
 		}
-	} else {
-		/* Power down reset */
-		if (b_upd_info) {
-			/* Update GPBR */
-			_write_persistent_data_GPBR(data);
+
+		res = true;
+	}
+	else
+	{
+		/* Persistent storage data is invalid*/
+		/* Read GPBR data, GPBR's update in each tx */
+		_read_persistent_data_GPBR(data);
+		if(data->m_u32FrameCounter < 0xFFFFFFFF) {
 			res = true;
-			LOG_STORAGE(("Power down reset: update GPBR.\r\n"));
+			LOG_STORAGE(("Persistent data read from GPBR.\r\n"));
 		} else {
-			/* Do nothing, GPBR's update in each tx */
-			LOG_STORAGE(("Power down reset: Do Nothing.\r\n"));
+			LOG_STORAGE(("GPBR and persistant storage are invalid.\r\n"));
 		}
 	}
-
+	
 	return res;
 }
