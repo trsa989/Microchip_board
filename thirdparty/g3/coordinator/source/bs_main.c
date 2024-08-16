@@ -10,11 +10,13 @@
 #include "bs_api.h"
 #include "bs_functions.h"
 #include "conf_bs.h"
+#include "crypto/aes_wrapper.h"
 
 int g_lbs_join_finished = 0;
 
 uint16_t us_rekey_idx = 0;
 uint16_t us_rekey_phase = LBP_REKEYING_PHASE_DISTRIBUTE;
+extern uint8_t auc_chip_id_container[16];
 
 /* Buffer and length for non-bootstrap messages (i.e., KICK, etc...) */
 uint8_t g_puc_data[100];
@@ -538,16 +540,22 @@ void bs_lbp_set_param(uint32_t ul_attribute_id, uint16_t us_attribute_idx, uint8
 		break;
 
 	case LBP_IB_GMK:
-		if (uc_attribute_len == 16) {
-			/* Set GMK on BS module */
-			set_gmk((uint8_t *)puc_attribute_value);
-			/* Set key table on G3 stack using the new index and new GMK */
-			_set_keying_table(us_attribute_idx, (uint8_t *)puc_attribute_value);
-			p_set_confirm->uc_status = LBP_STATUS_OK;
-		} else {
-			/* Wrong parameter size */
-			p_set_confirm->uc_status = LBP_STATUS_INVALID_LENGTH;
-		}
+		if (uc_attribute_len == 16)/* Set GMK on BS module */
+			{
+				uint8_t key_pom_buff[16];
+				memset(key_pom_buff, 0x00, 16);
+				crypto_init();
+				aes_key(auc_chip_id_container, 16);
+				aes_decrypt((uint8_t *)puc_attribute_value, key_pom_buff);
+				set_gmk((uint8_t *)key_pom_buff);/* Set key table on G3 stack using the new index and new GMK */
+				_set_keying_table(us_attribute_idx, (uint8_t *)key_pom_buff);
+				p_set_confirm->uc_status = LBP_STATUS_OK;
+			} 
+			else/* Wrong parameter size */
+			{
+			
+				p_set_confirm->uc_status = LBP_STATUS_INVALID_LENGTH;
+			}
 
 		break;
 

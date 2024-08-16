@@ -72,7 +72,7 @@ extern "C" {
 /**INDENT-ON**/
 /* / @endcond */
 
-
+extern uint8_t auc_chip_id_container[16];
 /* Known message ids */
 enum ESerialMessageId {
 	/* Generic messages */
@@ -124,7 +124,8 @@ enum ESerialMessageId {
 	/* User specific commands*/
 	SERIAL_MSG_GET_BUILD_TIME = 60,
 	SERIAL_MSG_REFLASH_BOOTLOADER,
-	SERIAL_MSG_JUMP_TO_BOOTLOADER
+	SERIAL_MSG_JUMP_TO_BOOTLOADER,
+	SERIAL_MSG_UNIQUE_ID
 };
 
 /* Status codes related to HostInterface processing */
@@ -213,6 +214,28 @@ static void MsgModemStatus(enum ESerialStatus status, uint8_t uc_serial_if_cmd)
 }
 
 /**********************************************************************************************************************/
+
+
+/**
+ **********************************************************************************************************************/
+static void MsgUniqueID(uint8_t uc_serial_if_cmd)
+{
+	uint8_t us_serial_response_len;
+
+	us_serial_response_len = 0;
+	uc_serial_rsp_buf[us_serial_response_len++] = uc_serial_if_cmd;
+	uc_serial_rsp_buf[us_serial_response_len++] = 0x00;
+	memcpy(&uc_serial_rsp_buf[us_serial_response_len], auc_chip_id_container, 16);
+	us_serial_response_len += 16;
+	/* set usi parameters */
+	x_adp_serial_msg.uc_protocol_type = PROTOCOL_ADP_G3;
+	x_adp_serial_msg.ptr_buf = &uc_serial_rsp_buf[0];
+	x_adp_serial_msg.us_len = us_serial_response_len;
+	usi_send_cmd(&x_adp_serial_msg);
+}
+
+/**********************************************************************************************************************/
+
 
 /**
  **********************************************************************************************************************/
@@ -2336,6 +2359,10 @@ uint8_t serial_if_g3adp_api_parser(uint8_t *puc_rx_msg, uint16_t us_len)
 	{
 		MsgModemStatus(status, uc_serial_if_cmd);
 		status = SERIAL_STATUS_SUCCESS;
+	}
+	else if(uc_serial_if_cmd == SERIAL_MSG_UNIQUE_ID)
+	{
+		MsgUniqueID(uc_serial_if_cmd);
 	}
 	else if(uc_serial_if_cmd == SERIAL_MSG_ENABLE_SNIFFER)
 	{

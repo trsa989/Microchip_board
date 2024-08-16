@@ -54,6 +54,7 @@
 
 /* Variable definition for microcontroller mode */
 uint32_t ul_led_count_ms_cfg = 0;
+uint8_t auc_chip_id_container[16]; /* 128 bits */
 uint32_t ul_led_count_ms;
 uint8_t uc_led_swap = 0;
 volatile uint8_t uc_flag_call_process = 0;
@@ -514,9 +515,8 @@ void platform_init_eui64(uint8_t *eui64)
 #endif
 
 #ifdef CONF_EUI64_FROM_CHIP_ID
-	uint8_t auc_chip_id_container[16]; /* 128 bits */
+	
 	uint32_t res;
-
 	LOG_PLATFORM(("Get EUI64 from Chip ID\r\n"));
 
 	/* Read from Chip ID */
